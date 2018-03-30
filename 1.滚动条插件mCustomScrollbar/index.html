@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" type="text/css" href="scrollbar/jquery.mCustomScrollbar.min.css" />
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .a{
+        margin: 50px auto;
+        width: 400px;
+        height: 300px;
+        border: 1px solid #777777;
+    }
+    .b div{
+        height: 50px;
+        text-align: center;
+    }
+</style>
+<body>
+<div class="a">
+    <div class="b">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+        <div>10</div>
+    </div>
+</div>
+</body>
+<script src="../jquery-3.3.1.min.js"></script>
+<script src="scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+<script>
+    $(".a").mCustomScrollbar({
+        theme: "minimal-dark"
+    });
+</script>
+</html>
