@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button class="a">点我退出返回登录页面</button>
+</body>
+<script src="../../jquery-3.3.1.min.js"></script>
+<script src="../jquery.cookie.js"></script>
+<script>
+    var btn=document.querySelector(".a");
+    btn.onclick=function () {
+        $.cookie('user', JSON.stringify({userName: "", passWord: "", isRem: false}), {
+            expires: 7,
+            path: '/'
+        });
+        window.location.href='index.html';
+    }
+</script>
+</html>

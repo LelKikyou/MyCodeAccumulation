@@ -19,7 +19,7 @@
                     if(callback!=null){
                         callback(img);
                     }
-                    break; // 直接返回，不用再处理onload事件
+                    continue; // 直接返回，不用再处理onload事件
                 }
                 if(callback!=null){
                     img.onload = function() { //图片下载完毕时异步调用callback函数。
