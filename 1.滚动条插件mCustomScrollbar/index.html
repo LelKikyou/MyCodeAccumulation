@@ -16,12 +16,18 @@
         height: 300px;
         border: 1px solid #777777;
     }
+    .b{
+        width: 1000px;
+    }
     .b div{
+        float: left;
+        width: 100px;
         height: 50px;
         text-align: center;
     }
 </style>
 <body>
+<button class="c">aaaaa</button>
 <div class="a">
     <div class="b">
         <div>1</div>
@@ -41,7 +47,19 @@
 <script src="scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 <script>
     $(".a").mCustomScrollbar({
-        theme: "minimal-dark"
+        axis: "x",// horizontal scrollbar
+        theme: "minimal-dark",         //设置一开始纵向滚动的位置,取值"100px",值为字符串
     });
+    var a=false;
+    $(".c").click(function () {
+        if(a){
+            $(".a").css("display","none")
+            a=false;
+        }else {
+            $(".a").css("display","block")
+            $(".mCSB_container").css("left","0")
+            a=true
+        }
+    })
 </script>
 </html>
