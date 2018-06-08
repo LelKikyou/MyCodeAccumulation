@@ -1,0 +1,301 @@
+/*顶部*/
+
+.lr-frame-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 50px;
+    background: url("images/head.png") no-repeat;
+}
+
+/*菜单栏缩进按钮*/
+
+.lr-frame-menu-btn {
+    position: absolute;
+    left: 0;
+    top: 50px;
+    height: 30px;
+    width: 230px;
+    cursor: pointer;
+    color: #aeb9c2;
+    text-align: center;
+    background-color: #d1eaff;
+    z-index: 2;
+}
+
+.lr-frame-menu-btn img {
+    margin-top: 4px;
+}
+
+/*菜单*/
+
+.lr-frame-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 230px;
+    height: calc(100% - 130px);
+    background: #fff;
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+    z-index: 1;
+    padding: 80px 0px 50px 0px;
+}
+
+.lr-frame-menu .lr-menu-item {
+    height: 50px;
+    padding: 0px 15px;
+    line-height: 50px;
+    color: #021574;
+    font-size: 14px;
+}
+
+.lr-frame-menu-wrap {
+    position: relative;
+    left: 0;
+    top: 0;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+.lr-frame-menu li {
+    position: relative;
+    width: 100%;
+    zoom: 1;
+}
+
+.lr-menu-item {
+    display: block;
+    font-size: 0;
+    position: relative;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.lr-second-menu-list, .lr-three-menu-list {
+    display: none;
+}
+
+.lr-first-menu-list>li>.lr-menu-item:hover {
+    color: #19a3fc;
+}
+
+.lr-frame-menu .lr-menu-item.a-active {
+    color: #19a3fc;
+}
+
+.lr-frame-menu .lr-menu-item-arrow {
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    top: 18px;
+    right: 5px;
+}
+
+.lr-second-menu-list, .lr-three-menu-list {
+    position: relative;
+    width: 100%;
+    padding-top: 5px;
+}
+
+.lr-second-menu-list .lr-menu-item {
+    padding-left: 40px;
+    padding-right: 15px;
+}
+
+.lr-second-menu-list .lr-menu-item:hover {
+    color: #19a3fc;
+}
+
+.lr-three-menu-list .lr-menu-item {
+    padding-left: 60px;
+}
+
+.lr-menu-item.open>.lr-menu-item-arrow {
+    -webkit-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+/*tabs条*/
+
+.lr-frame-tabs {
+    position: absolute;
+    top: 13px;
+    left: 0;
+    width: calc(100% - 295px);
+    height: 37px;
+    z-index: 2;
+    padding: 0px 70px 0px 235px;
+}
+
+.lr-frame-tabs-wrap {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.lr-frame-tabs-wrap ul {
+    position: relative;
+    height: 100%;
+    white-space: nowrap;
+}
+
+.lr-frame-tabItem {
+    position: relative;
+    padding: 0px 25px 0px 15px;
+    display: inline-block;
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 5px 5px 0 0;
+    border: 2px solid #fff;
+    border-bottom: none;
+    font-size: 14px;
+    height: 35px;
+    line-height: 35px;
+    color: #fff;
+    margin-left: 5px;
+}
+
+.lr-frame-tabItem .reomve {
+    position: absolute;
+    padding: 2px;
+    width: 12px;
+    height: 12px;
+    display: block;
+    top: 10px;
+    right: 4px;
+    background: url(images/tab_close.png) no-repeat;
+    background-position: 1px 1px;
+}
+
+.lr-frame-tabItem .reomve:hover {
+    background-position: 0 -11px;
+}
+
+.lr-frame-tabItem.active {
+    background-color: #fff;
+    color: #477af9;
+}
+
+/*功能窗口*/
+
+.lr-frame-main {
+    position: absolute;
+    width: calc(100% - 230px);
+    height: calc(100% - 50px);
+    z-index: 0;
+    padding: 50px 0px 0px 230px;
+    background: #eaedf1;
+}
+
+/*功能窗口ifame*/
+
+.lr-frame-iframe {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.lr-frame-iframe.active {
+    display: block;
+}
+
+/*全屏*/
+
+.lr_frame_fullscreen {
+    top: 0px;
+    right: 0px;
+    height: 50px;
+    width: 30px;
+    line-height: 50px;
+    text-align: center;
+    z-index: 3;
+}
+
+.lr_frame_fullscreen a {
+    font-size: 14px;
+    color: #c1c3c9;
+}
+
+.lr_frame_fullscreen a:hover {
+    color: #fff;
+}
+
+/*菜单列的第三方滚动条样式@@@@@@@@@@@@*/
+#mCSB_2_scrollbar_vertical{
+    right: -6px;
+}
+
+/* tab滚动条插件 @@@@@@@@@@@@@@@@@@@@*/
+#mCSB_1_scrollbar_horizontal .mCSB_dragger_bar{
+    background-color: #477af9;
+    height: 2px;
+}
+#mCSB_1_scrollbar_horizontal {
+    bottom: -8px;
+}
+
+/*菜单关闭后显示样式*/
+
+.lr-menu-closed .lr-frame-menu {
+    width: 50px;
+}
+
+.lr-menu-closed .lr-frame-menu-wrap span, .lr-menu-closed .lr-frame-menu-wrap .lr-menu-item-arrow, .lr-menu-closed .lr-meun-had>a {
+    display: none;
+}
+
+.lr-menu-closed .lr-frame-menu-wrap a {
+    padding: 0px;
+    text-align: center;
+}
+
+.lr-menu-closed .lr-frame-menu-wrap .lr-three-menu-list {
+    display: block;
+}
+
+.lr-menu-closed .lr-frame-menu-btn {
+    -webkit-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+    width: 50px;
+}
+
+.lr-menu-closed .lr-frame-personCenter {
+    width: 50px;
+    padding: 0px;
+}
+
+.lr-menu-closed .lr-frame-personCenter .dropdown-menu {
+    padding: 0px;
+}
+
+.lr-menu-closed .lr-frame-personCenter>.dropdown-toggle {
+    line-height: 50px;
+    text-align: center;
+}
+
+.lr-menu-closed .lr-frame-personCenter>.dropdown-toggle>img {
+    float: initial;
+    margin: 0;
+}
+
+.lr-menu-closed .lr-frame-personCenter>.dropdown-toggle>span {
+    display: none;
+}
+
+.lr-menu-closed .lr-frame-main {
+    width: calc(100% - 50px);
+    padding: 50px 0px 0px 50px;
+}
