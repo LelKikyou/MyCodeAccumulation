@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>输入账号，自动添加密码功能</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .a{
+        margin: 100px auto;
+        width: 400px;
+        height: 300px;
+        background: #ffffff;
+    }
+</style>
+
+<!--输入账号，自动添加密码功能-->
+
+
+
+<body>
+<div class="a">
+    用户名：<input type="text" id="userName"/><br />
+    密码：<input type="text" id="passWord"/><br />
+    <input type="checkbox" id="remember-password"/>记住用户名和密码<br />
+    <input type="submit" id="login" value="登录"/>
+</div>
+</body>
+<script src="../../../jquery-3.3.1.min.js"></script>
+<script src="../jquery.cookie.js"></script>
+<script>
+    $(function () {
+        // //移除密码
+        // $('#remember-password').click(function () {
+        //     if (!$('#remember-password').attr('checked')) {
+        //         var cookie = new rememberPassword();
+        //         cookie.cookieDelete();
+        //     }
+        // });
+        //cookie记住密码
+        function remPassword() {
+            //存储变量
+            this.username = $('#userName').val();
+            this.password = $('#passWord').val();
+            if (!!$.cookie('user')) {
+                this.cookie = eval($.cookie('user'));
+            } else {
+                $.cookie('user', '[]');
+                this.cookie = eval($.cookie('user'));
+            }
+        }
+        remPassword.prototype = {
+            cookieInit: function() { //初始化
+                var temp = this.cookie,
+                    username = this.username,
+                    start = false;
+                console.log(temp);
+                if (temp.length > 0) {
+                    $.each(temp, function(i, item) {
+                        if (item.first == true) {
+                            $('#userName').val(item.username);
+                            $('#passWord').val(item.password);
+                            $('#remember-password').attr('checked', true)
+                        }
+                    });
+                }
+                $('#userName').blur(function() {
+                    console.log('失去焦点');
+                    //检查是否存在该用户名,存在则赋值，不存在则不做任何操作
+                    $.each(temp, function(i, item) {
+                        if (item.username == $('#userName').val()) {
+                            $('#userName').val(item.username);
+                            $('#passWord').val(item.password);
+                            $('#remember-password').attr('checked', true)
+                            start = true;
+                            return false;
+                        } else {
+                            $('#passWord').val('');
+                        }
+
+                    });
+                });
+            },
+            //记住密码
+            cookieRemeber: function() {
+                var temp = this.cookie,
+                    username = $('#userName').val(),
+                    password = $('#passWord').val(),
+                    start = false;
+                //检测用户是否存在
+                $.each(temp, function(i, item) {
+                    if (item.username == username) {
+                        //记录最后一次是谁登录的
+                        item.first = true;
+                        $('#passWord').val(item.password);
+                        start = true;
+                        return;
+                    } else {
+                        item.first = false;
+                    }
+                });
+                //不存在就把用户名及密码保存到cookie中
+                if (!start) {
+                    temp.push({
+                        username: username,
+                        password: password,
+                        first: true
+                    });
+                }
+                //存储到cookie中
+                $.cookie('user', JSON.stringify(temp));
+            },
+            //删除密码
+            cookieDelete: function() {
+                var temp = this.cookie,
+                    username = this.username,
+                    num = 0;
+                //检测用户是否存在
+                $.each(temp, function(i, item) {
+                    if (item.username === username) {
+                        num = i;
+                    }
+                });
+                //删除里面的密码
+                temp.splice(num, 1);
+                //存储到cookie中
+                $.cookie('user', JSON.stringify(temp));
+            }
+        }
+        var cookie = new remPassword();
+        cookie.cookieInit();
+        $("#login").click(function () {
+            cookie.cookieRemeber()
+            window.location.href='http://www.baidu.com';
+        })
+    })
+</script>
+<!--<script type="text/javascript">-->
+    <!--$(document).ready(function () {-->
+        <!--alert($.cookie("rmbUser"));-->
+        <!--if ($.cookie("rmbUser") == "true") {-->
+            <!--$("#ck_rmbUser").attr("checked", true);-->
+            <!--$("#txt_username").val($.cookie("username"));-->
+            <!--$("#txt_password").val($.cookie("password"));-->
+<!--//            自动跳转到某某网页。。。。。-->
+            <!--window.location.href='http://www.baidu.com';-->
+        <!--}-->
+    <!--});-->
+    <!--//自动添加用户名密码-->
+    <!--function autoPwd(){-->
+        <!--if ($.cookie("rmbUser") == "true") {-->
+            <!--var username=$("#txt_username").val();-->
+            <!--if(username==$.cookie("username")){-->
+                <!--$("#ck_rmbUser").prop("checked", true);-->
+                <!--$("#txt_password").val($.cookie("password"));-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+    <!--//记住用户名密码-->
+    <!--function Save() {-->
+        <!--if ($("#ck_rmbUser").prop("checked")) {-->
+            <!--var str_username = $("#txt_username").val();-->
+            <!--var str_password = $("#txt_password").val();-->
+            <!--$.cookie("rmbUser", "true", { expires: 7 }); //存储一个带7天期限的cookie-->
+            <!--$.cookie("username", str_username, { expires: 7 });-->
+            <!--$.cookie("password", str_password, { expires: 7 });-->
+            <!--window.location.href='http://www.baidu.com';-->
+        <!--}-->
+        <!--else {-->
+            <!--$.cookie("rmbUser", "false", { expire: -1 });-->
+            <!--$.cookie("username", "", { expires: -1 });-->
+            <!--$.cookie("password", "", { expires: -1 });-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自动登录功能</title>
+</head>
+
+<!--输入账号，自动添加密码功能-->
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .a {
+        margin: 100px auto;
+        width: 400px;
+        height: 300px;
+        background: #ffffff;
+    }
+</style>
+<body>
+<div class="a">
+    用户名：<input type="text" id="userName"/><br/>
+    密码：<input type="text" id="passWord"/><br/>
+    <input type="checkbox" id="remember-password"/>记住用户名和密码<br/>
+    <input type="submit" id="login" value="登录"/>
+</div>
+</body>
+<script src="../../../jquery-3.3.1.min.js"></script>
+<!--$.cookie('the_cookie','the_value',{
+expires:7,
+path:'/',
+domain:'jquery.com',
+secure:true
+})-->
+<!--expires：（Number|Date）有效期；设置一个整数时，单位是天；也可以设置一个日期对象作为Cookie的过期日期；-->
+<!--path：（String）创建该Cookie的页面路径；-->
+<!--domain：（String）创建该Cookie的页面域名；-->
+<!--secure：（Booblean）如果设为true，那么此Cookie的传输会要求一个安全协议，例如：HTTPS；-->
+<script src="../jquery.cookie.js"></script>
+<script>
+    function remPassword() {
+        if (!!$.cookie('user')) {
+            this.cookie = JSON.parse($.cookie('user'))
+            console.log(this.cookie)
+        } else {
+            $.cookie('user', JSON.stringify({userName: "", passWord: "", isRem: false}), {
+                expires: 7,
+                path: '/'
+            });
+            this.cookie = JSON.parse($.cookie('user'));
+        }
+    }
+
+    remPassword.prototype = {
+        init: function () {
+            var temp = this.cookie;
+            if (temp.isRem) {
+                $("#userName").val(temp.userName);
+                $("#passWord").val(temp.passWord);
+            }
+        },
+        cookieRemeber: function () {
+            var temp = this.cookie;
+            var isSewlected = $("#remember-password").prop("checked");
+            //选中的时候才记录密码
+            if (isSewlected) {
+                var username = $('#userName').val(),
+                    password = $('#passWord').val();
+                $.cookie('user', JSON.stringify({userName: username, passWord: password, isRem: true}), {
+                    expires: 7,
+                    path: '/'
+                });
+            }
+        },
+        deleteCookie:function () {
+            $.cookie('user', JSON.stringify({userName: "", passWord: "", isRem: false}), {
+                expires: 7,
+                path: '/'
+            });
+        }
+    }
+</script>
+<script>
+    var remPas = new remPassword();
+    remPas.init();
+    $("#login").click(function () {
+        var username1 = $('#userName').val(),
+            password1 = $('#passWord').val();
+        if (username1 == "hqy1" && password1 == "hqy") {
+            remPas.cookieRemeber();
+            window.location.href='xxx.html';
+        }
+    })
+</script>
+</html>
