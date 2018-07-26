@@ -1,0 +1,226 @@
+{
+  "tree": {
+    "code": 200,
+    "data": {
+      "rows": [
+        {
+          "id": 1,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 2,
+          "name": "黄仙",
+          "age": 19,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 1,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 1,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 1,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 1,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 1,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 1,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 1,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 1,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 1,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 1,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 121,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        },
+        {
+          "id": 122,
+          "name": "黄小仙",
+          "age": 18,
+          "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+          "F_CreateDate": "2018-02-05 13:25:35",
+          "F_CreateUserId": "System",
+          "F_CreateUserName": "超级管理员",
+          "F_DeleteMark": 0,
+          "ParentId": 121,
+          "F_ShortName": "常州监狱",
+          "F_SortCode": 212
+        }
+      ],
+      "page": 1,
+      "total": 200
+    }
+  },
+  "noTree": {
+    "code": 200,
+    "data": [
+      {
+        "id": 1,
+        "name": "黄小仙",
+        "age": 18,
+        "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+        "F_CreateDate": "2018-02-05 13:25:35",
+        "F_CreateUserId": "System",
+        "F_CreateUserName": "超级管理员",
+        "F_DeleteMark": 0,
+        "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+        "F_ShortName": "常州监狱",
+        "F_SortCode": 212,
+        "JyParentId":""
+      },
+      {
+        "id": 2,
+        "name": "黄仙",
+        "age": 19,
+        "F_CompanyId": "fbde756f-5b66-45e6-8750-bb5b0b9cad13",
+        "F_CreateDate": "2018-02-05 13:25:35",
+        "F_CreateUserId": "System",
+        "F_CreateUserName": "超级管理员",
+        "F_DeleteMark": 0,
+        "JyParentId":1,
+        "F_ParentId": "2984c1a6-c71a-489c-813a-a0cce198388e",
+        "F_ShortName": "常州监狱",
+        "F_SortCode": 212
+      }
+    ]
+  }
+}

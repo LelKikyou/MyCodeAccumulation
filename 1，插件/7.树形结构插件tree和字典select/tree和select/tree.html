@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="tree/tree.css">
+<link rel="stylesheet" href="scroll/jquery.mCustomScrollbar.min.css">
+<script src="jquery-3.3.1.min.js"></script>
+<script src="scroll/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="tree/tree.js"></script>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        box-sizing: border-box;
+        padding-left: 200px;
+    }
+
+    .box {
+        width: 200px;
+        height: 500px;
+    }
+</style>
+<body>
+<div class="box">
+
+</div>
+<button class="btn">点我</button>
+</body>
+<script>
+    // [
+    //     {
+    //         "checkstate": 1,
+    //         "complete": true,
+    //         "hasChildren": true,
+    //         "icon": null,
+    //         "id": "1",
+    //         "isexpand": true,
+    //         "showcheck": true,
+    //         "text": "本人",
+    //         "title": null,
+    //         "value": "01",
+    //         "ChildNodes":[
+    //             {
+    //                 "checkstate": 0,
+    //                 "complete": true,
+    //                 "hasChildren": true,
+    //                 "icon": null,
+    //                 "id": "1-1",
+    //                 "isexpand": false,
+    //                 "showcheck": true,
+    //                 "text": "我是本人",
+    //                 "title": null,
+    //                 "value": "03"
+    //             },
+    //             {
+    //                 "checkstate": 1,
+    //                 "complete": true,
+    //                 "hasChildren": false,
+    //                 "icon": null,
+    //                 "id": "1-2",
+    //                 "isexpand": true,
+    //                 "showcheck": true,
+    //                 "text": "我不是本人",
+    //                 "title": "嘎嘎嘎",
+    //                 "value": "04"
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         "checkstate": 1,
+    //         "complete": true,
+    //         "hasChildren": false,
+    //         "icon": null,
+    //         "id": "2",
+    //         "isexpand": true,
+    //         "showcheck": true,
+    //         "text": "我是谁",
+    //         "title": "嘎嘎嘎噶",
+    //         "value": "02"
+    //     }
+    // ]
+    //数据类型如上
+
+    // 渲染方法
+    $(".box").lrtree({
+        url: "http://localhost:3000/api/tree", nodeClick: (data, res) => {
+            console.log(data, res)
+        }, nodeCheck: data => {
+            console.log(data)
+        }
+    });
+
+    $(".btn").click(function () {
+        // 各种事件
+        $.lrtreeSet("allNoCheck");
+    })
+</script>
+</html>

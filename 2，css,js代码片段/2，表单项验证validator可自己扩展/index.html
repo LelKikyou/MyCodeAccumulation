@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="jquery-3.3.1.min.js"></script>
+<body>
+    <div class="sdcm-from">
+        <input type="text" isvalid="yes" checkexpession="NotNull">
+    </div>
+    <button class="onClick">点击</button>
+</body>
+<script>
+    top.Sdcm={
+        
+    }
+</script>
+<script src="validator-helper.js"></script>
+<script src="validator.js"></script>
+<script>
+    $(".onClick").click(function(){
+        $(".sdcm-from").lrValidform();
+    })
+</script>
+</html>

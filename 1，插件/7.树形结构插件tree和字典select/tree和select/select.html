@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="tree/tree.css">
+<link rel="stylesheet" href="select/lr-select.css">
+<link rel="stylesheet" href="scroll/jquery.mCustomScrollbar.min.css">
+<script src="jquery-3.3.1.min.js"></script>
+<script src="scroll/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="tree/tree.js"></script>
+<script src="select/lr-select.js"></script>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    body{
+        font-size: 12px;
+    }
+    #ZJLX {
+        position: absolute;
+        top: 200px;
+        left: 500px;
+        width: 200px;
+        height: 30px;
+        border: 1px solid red;
+    }
+</style>
+
+<body>
+    <div id="ZJLX"></div>
+</body>
+<script>
+    var a = [{
+        checkstate: 0,
+        complete: true,
+        hasChildren: true,
+        icon: null,
+        id: "a5548f15-1565-4812-ba29-403d09dfd386",
+        isexpand: true,
+        parentId: "0",
+        showcheck: false,
+        text: "本人或户主",
+        title: null,
+        value: "0",
+        ChildNodes: [{
+            checkstate: 0,
+            complete: true,
+            hasChildren: false,
+            icon: null,
+            id: "011111",
+            isexpand: true,
+            parentId: "a5548f15-1565-4812-ba29-403d09dfd386",
+            showcheck: false,
+            text: "本人",
+            title: null,
+            value: "01",
+            ChildNodes: []
+        }, {
+            checkstate: 0,
+            complete: true,
+            hasChildren: false,
+            icon: null,
+            id: "022222",
+            isexpand: true,
+            parentId: "a5548f15-1565-4812-ba29-403d09dfd386",
+            showcheck: false,
+            text: "本人户主",
+            title: null,
+            value: "02",
+            ChildNodes: []
+        }]
+    },
+    {
+        checkstate: 0,
+        complete: true,
+        hasChildren: false,
+        icon: null,
+        id: "2222222",
+        isexpand: true,
+        parentId: "0",
+        showcheck: false,
+        text: "大爷",
+        title: null,
+        value: "1",
+        ChildNodes: []
+    }];
+
+    var data = {
+        allowSearch
+            :
+            true,
+        maxHeight
+            :
+            "200",
+        param
+            :
+            { itemCode: "ZhengJianLX", parentId: "0" },
+        type
+            :
+            "tree",
+        url
+            :
+            "/LR_SystemModule/DataItem/GetDetailTree",
+        value
+            :
+            "value"
+    }
+    $('#ZJLX').lrselect(data);
+    $('#ZJLX').lrselectSet("01");
+    console.log($('#ZJLX').lrselectGet("本人"))
+</script>
+
+</html>

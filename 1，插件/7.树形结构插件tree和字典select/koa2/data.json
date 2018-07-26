@@ -1,0 +1,54 @@
+{
+  "tree": [
+    {
+      "checkstate": 1,
+      "complete": true,
+      "hasChildren": true,
+      "icon": null,
+      "id": "1",
+      "isexpand": true,
+      "showcheck": true,
+      "text": "本人",
+      "title": null,
+      "value": "01",
+      "ChildNodes":[
+        {
+          "checkstate": 0,
+          "complete": true,
+          "hasChildren": true,
+          "icon": null,
+          "id": "1-1",
+          "isexpand": false,
+          "showcheck": true,
+          "text": "我是本人",
+          "title": null,
+          "value": "03"
+        },
+        {
+          "checkstate": 1,
+          "complete": true,
+          "hasChildren": false,
+          "icon": null,
+          "id": "1-2",
+          "isexpand": true,
+          "showcheck": true,
+          "text": "我不是本人",
+          "title": "嘎嘎嘎",
+          "value": "04"
+        }
+      ]
+    },
+    {
+      "checkstate": 1,
+      "complete": true,
+      "hasChildren": false,
+      "icon": null,
+      "id": "2",
+      "isexpand": true,
+      "showcheck": true,
+      "text": "我是谁",
+      "title": "嘎嘎嘎噶",
+      "value": "02"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="paginbar"></div>
+</body>
+<script src="utils.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
+<script src="../工具类/tool.js"></script>
+<script>
+    T.Paginbar({ // 分页条
+        num: 3,//显示能点击的页码数
+        size: 1,//每页多少条数据
+        total: 100,//总共多少页
+        index: 5, // 当前页码
+        paginbar: "paginbar", // 容器ID
+        callback: function (obj, index, size, total) { // 点击页码回调
+            console.log(obj,index,size,total)
+        }
+    });
+</script>
+
+</html>

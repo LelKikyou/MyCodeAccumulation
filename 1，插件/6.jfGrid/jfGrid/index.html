@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="scroll/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="jfGrid/jfgrid.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="scroll/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="jfGrid/jfgrid.js"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    ul li {
+        float: left
+    }
+
+    div {
+        box-sizing: border-box;
+    }
+
+    .main {
+        width: 800px;
+        height: 300px;
+    }
+</style>
+<body>
+<div class="main">
+</div>
+</body>
+<script>
+    $('.main').jfGrid({
+        url: "http://localhost:3000/api/jfGrid",
+        headData: [
+            {label: "id", name: "id", width: 160, align: "center"},
+            {label: "name", name: "name", width: 160, align: "center",},
+            {
+                label: "操作", width: 160, align: "center", formatterClick(value, row, dfop, $dcell) {
+                    var a=$('<button class="bj">编辑</button>');
+                    a.click(function (e) {
+                        event.stopPropagation();
+                        console.log(row.id)
+                    });
+                    $dcell.append(a);
+                }
+            }
+        ],
+        isTree: true,
+        parentId: 'JyParentId',
+        reloadSelected: true
+    });
+    $('.main').jfGridSet('reload');
+</script>
+
+</html>
