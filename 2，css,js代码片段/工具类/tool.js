@@ -66,7 +66,7 @@ Date.prototype.Format = function(fmt){
     };
     /**
      * 3,
-     * 基于时间戳生成20位全局唯一标识（每一毫秒只对应一个唯一的标识，适用于生成DOM节点ID）
+     *  基于时间戳生成20位全局唯一标识（每一毫秒只对应一个唯一的标识，适用于生成DOM节点ID）
      */
     T.UUID = function(len){
         var timestamp = new Date().getTime()||0, chars = 'abcdefghijklmnopqrstuvwxyz', uuid = '';
@@ -83,6 +83,7 @@ Date.prototype.Format = function(fmt){
         return uuid;
     };
     /**
+     * 4,
      * 得到数据类型
      * @memberof T
      * @method Typeof
@@ -104,6 +105,7 @@ Date.prototype.Format = function(fmt){
         return type?type.test(ret):ret;
     };
     /**
+     * 5,
      * 对象遍历
      * @memberof T
      * @method Each
@@ -125,6 +127,60 @@ Date.prototype.Format = function(fmt){
                     if(callback(o,obj[o])===false)break;
         }
         return obj;
+    };
+    /**
+     * 6,
+     * 解析键值对字符串为Hash对象
+     * @memberof T
+     * @method DecodeHashString
+     * @param {String} str 必选，键值对字符串
+     * @param {String} [sign=&] 可选，默认“&”，键值对分隔符
+     * @param {String} [flag==] 可选，默认“=”，键值分隔符
+     * @returns {Object} Hash对象
+     */
+    T.DecodeHashString = function (str, sign, flag) {
+        var arr = str ? str.split(sign==null ? '&' : sign) : [];
+        var hashs = {};
+        var reg = new RegExp('(^|'+(flag||'&')+')([^'+(sign||'=')+']*)'+(sign||'=')+'([^'+(flag||'&')+']*)('+(flag||'&')+'|$)', 'i');
+        for (var i = 0, l = arr.length; i < l; i++) {
+            var parts = arr[i].match(reg)||[];
+            if(parts[2]!==''){
+                hashs[parts[2]]=decodeURI(parts[3]==null?'':parts[3]);
+            }
+        }
+        return hashs;
+    };
+    /**
+     * 7,
+     * 编码Hash对象为键值对字符串
+     * @memberof T
+     * @method EncodeHashString
+     * @param {String} hashs 必选，Hash对象
+     * @param {String} [sign=&] 可选，默认“&”，键值对分隔符
+     * @param {String} [flag==] 可选，默认“=”，键值分隔符
+     * @returns {String} 键值对字符串
+     */
+    T.EncodeHashString = function (hashs, sign, flag) {
+        var arr = [];
+        for (var key in hashs) {
+            if (hashs.hasOwnProperty && hashs.hasOwnProperty(key)) {
+                arr.push(key + (flag==null ? '=' : flag) + encodeURIComponent(decodeURIComponent(hashs[key]==null?'':hashs[key])));
+            }
+        }
+        return arr.join(sign==null ? '&' : sign);
+    };
+    /**
+     * 8,
+     * 获取URL中“?/#”之后的所有参数
+     * @memberof T
+     * @method GetRequest
+     * @param {Boolean} isHash 必选，是否为location.hash
+     * @param {String} sign 必选，键值对分隔符
+     * @returns {Object} 所有参数
+     */
+    T.GetRequest = function (isHash, sign) {
+        var hashs = isHash ? location.hash : location.search;//获取url中'?/#'符后的字符串
+        return T.DecodeHashString(hashs.replace(/^[?#]/, ''), sign);
     };
     /**
      * 对象继承
@@ -149,57 +205,7 @@ Date.prototype.Format = function(fmt){
         return source;
     };
     /**
-     * 解析键值对字符串为Hash对象
-     * @memberof T
-     * @method DecodeHashString
-     * @param {String} str 必选，键值对字符串
-     * @param {String} [sign=&] 可选，默认“&”，键值对分隔符
-     * @param {String} [flag==] 可选，默认“=”，键值分隔符
-     * @returns {Object} Hash对象
-     */
-    T.DecodeHashString = function (str, sign, flag) {
-        var arr = str ? str.split(sign==null ? '&' : sign) : [];
-        var hashs = {};
-        var reg = new RegExp('(^|'+(flag||'&')+')([^'+(sign||'=')+']*)'+(sign||'=')+'([^'+(flag||'&')+']*)('+(flag||'&')+'|$)', 'i');
-        for (var i = 0, l = arr.length; i < l; i++) {
-            var parts = arr[i].match(reg)||[];
-            if(parts[2]!==''){
-                hashs[parts[2]]=decodeURI(parts[3]==null?'':parts[3]);
-            }
-        }
-        return hashs;
-    };
-    /**
-     * 编码Hash对象为键值对字符串
-     * @memberof T
-     * @method EncodeHashString
-     * @param {String} hashs 必选，Hash对象
-     * @param {String} [sign=&] 可选，默认“&”，键值对分隔符
-     * @param {String} [flag==] 可选，默认“=”，键值分隔符
-     * @returns {String} 键值对字符串
-     */
-    T.EncodeHashString = function (hashs, sign, flag) {
-        var arr = [];
-        for (var key in hashs) {
-            if (hashs.hasOwnProperty && hashs.hasOwnProperty(key)) {
-                arr.push(key + (flag==null ? '=' : flag) + encodeURIComponent(decodeURIComponent(hashs[key]==null?'':hashs[key])));
-            }
-        }
-        return arr.join(sign==null ? '&' : sign);
-    };
-    /**
-     * 获取URL中“?/#”之后的所有参数
-     * @memberof T
-     * @method GetRequest
-     * @param {Boolean} isHash 必选，是否为location.hash
-     * @param {String} sign 必选，键值对分隔符
-     * @returns {Object} 所有参数
-     */
-    T.GetRequest = function (isHash, sign) {
-        var hashs = isHash ? location.hash : location.search;//获取url中'?/#'符后的字符串
-        return T.DecodeHashString(hashs.replace(/^[?#]/, ''), sign);
-    };
-    /**
+     * 9,
      * 字符串化URI
      * @memberof T
      * @method StringifyURI
@@ -218,36 +224,6 @@ Date.prototype.Format = function(fmt){
         return parts.join('').replace(/[?#]+$/,'');
     };
     /**
-     * 重定向URI
-     * @memberof T
-     * @method RedirectURI
-     * @param {String} goaluri 必选，目标URI字符串
-     * @param {String} [backuri] 可选，默认当前URI，回调URI字符串
-     */
-    T.RedirectURI = function(goaluri, backuri){
-        if(!goaluri)return;
-        location.replace(T.StringifyURI(goaluri, {backuri: backuri||location.href}));
-    };
-    /**
-     * 重新加载URI
-     * @memberof T
-     * @method ReloadURI
-     * @param {Object} [params] 可选，需要附加在“?”之后的参数
-     * @param {Object} [hashs] 可选，需要附加在“#”之后的参数
-     */
-    T.ReloadURI = function(params, hashs){
-        location.replace(T.StringifyURI(location.href, params, hashs));
-    };
-    /**
-     * 动态创建一个闭包函数并执行
-     * @memberof T
-     * @param {String} str 必选，字符串
-     * @returns {Object} 执行结果
-     */
-    T.Eval = function(str){
-        return (new Function('return '+str)());
-    };
-    /**
      * 操作cookie对象
      * @memberof T
      * @summary Cookie操作类
@@ -258,6 +234,7 @@ Date.prototype.Format = function(fmt){
      */
     T.Cookie = {
         /**
+         * 10，
          * 获取cookie
          * @memberof T.Cookie
          * @method get
@@ -274,6 +251,7 @@ Date.prototype.Format = function(fmt){
             return key ? result[key] : result;
         },
         /**
+         * 11,
          * 设置cookie，如果value为null/undefined，则删除cookie
          * @memberof T.Cookie
          * @method set
@@ -955,7 +933,7 @@ Date.prototype.Format = function(fmt){
             });
         }
     };
-    
+
     /**
      * 文件上传格式和大小限制
      * @param id 文件的html容器
@@ -965,54 +943,54 @@ Date.prototype.Format = function(fmt){
     T.uploadFormatSize = function(id,formatArr,maxSzie){
     	var target = document.getElementById(id);
     	var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
-		var fileSize = 0; 
+		var fileSize = 0;
 		var filemaxsize = 1024*maxSzie;
 		//1.判断格式
-		var filepath = target.value; 
+		var filepath = target.value;
 		if(filepath){
-			var isAllowFormat = false; 
-			var fileFormat = filepath.substring(filepath.lastIndexOf(".")); 
-			if(formatArr && formatArr.length>0){ 
-				for(var i =0; i<formatArr.length;i++){ 
-					if(formatArr[i]==fileFormat){ 
-						isAllowFormat = true; 
-						break; 
-					} 
-				} 
-			} 
-			if(!isAllowFormat){ 
-				alert("不接受此文件类型！"); 
-				target.value =""; 
-				return false; 
-			} 
-		}else{ 
-			return false; 
+			var isAllowFormat = false;
+			var fileFormat = filepath.substring(filepath.lastIndexOf("."));
+			if(formatArr && formatArr.length>0){
+				for(var i =0; i<formatArr.length;i++){
+					if(formatArr[i]==fileFormat){
+						isAllowFormat = true;
+						break;
+					}
+				}
+			}
+			if(!isAllowFormat){
+				alert("不接受此文件类型！");
+				target.value ="";
+				return false;
+			}
+		}else{
+			return false;
 		}
 		//2.判断是否存在
 		if (isIE && !target.files) {
 			var filePath = target.value;
-			var fileSystem = new ActiveXObject("Scripting.FileSystemObject"); 
-			if(!fileSystem.FileExists(filePath)){ 
-				alert("文件不存在，请重新输入！"); 
-				return false; 
-			} 
-			var file = fileSystem.GetFile(filePath); 
-			fileSize = file.Size; 
-		} else { 
+			var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
+			if(!fileSystem.FileExists(filePath)){
+				alert("文件不存在，请重新输入！");
+				return false;
+			}
+			var file = fileSystem.GetFile(filePath);
+			fileSize = file.Size;
+		} else {
 			fileSize = target.files[0].size;
-		} 
+		}
 		//3.判断大小
-		var size = fileSize / 1024; 
-		if(size>filemaxsize){ 
-			alert("文件大小不能大于"+filemaxsize/1024+"M！"); 
+		var size = fileSize / 1024;
+		if(size>filemaxsize){
+			alert("文件大小不能大于"+filemaxsize/1024+"M！");
 			target.value ="";
-			return false; 
-		} 
-		if(size<=0){ 
+			return false;
+		}
+		if(size<=0){
 			alert("文件大小不能为0M！");
-			target.value =""; 
-			return false; 
-		} 
+			target.value ="";
+			return false;
+		}
 		return true;
     }
     window.T = T;

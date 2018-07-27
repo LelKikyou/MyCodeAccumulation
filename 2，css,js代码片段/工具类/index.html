@@ -7,7 +7,7 @@
     <script src="tool.js"></script>
 </head>
 <style>
-    *{
+    * {
         padding: 0;
         margin: 0;
     }
@@ -16,7 +16,8 @@
 
 </body>
 <script>
-    var a= T.getDateRange(2,1);
+    T.Cookie.set("xx","123")
+    var a =     T.Cookie.get();
     console.log(a)
 </script>
 </html>
