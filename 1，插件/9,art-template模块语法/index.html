@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="art-template.js"></script>
+<style>
+    .a{
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<body>
+<div class="a">
+
+</div>
+</body>
+<script id="xx" type="text/html">
+    {{if user}}
+    <h2>{{user.name}}</h2>
+    {{/if}}
+</script>
+<script>
+    <!--渲染模板 具体的看文档-->
+    var html=template('xx', {
+        user: {name:"a"}
+    });
+    // 插入dom中
+    var a=document.querySelector(".a");
+    a.innerHTML=html;
+</script>
+</html>

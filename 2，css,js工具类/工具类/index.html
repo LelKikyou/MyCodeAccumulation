@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="tool.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="tool.js"></script>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+</style>
+<body>
+<div class="a" id="rolePaginbar">
+</div>
+</body>
+<script>
+    T.Paginbar({
+        num: 2,//显示能点击的页码数
+        size: 2,//每页多少条数据
+        total: 100,//总共多少页
+        index: 10, // 当前页码
+        paginbar: "rolePaginbar", // 容器ID
+        callback: function (obj, index, size, total) { // 点击页码回调
+            console.log(obj,index,size,total)
+        }
+    })
+</script>
+</html>
