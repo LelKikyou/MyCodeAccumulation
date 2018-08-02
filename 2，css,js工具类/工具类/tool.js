@@ -22,7 +22,7 @@ Date.prototype.Format = function (fmt) {
     return fmt;
 };
 
-!(function (window, document, undefined) {
+!(function (window, document) {
     "use strict";
     //通用方法及常量
     //_TOSTRING，检测是什么类型
@@ -171,16 +171,19 @@ Date.prototype.Format = function (fmt) {
     };
     /**
      * 8,
-     * 获取URL中“?/#”之后的所有参数
+     * 获取URL中“?/#”之后的所有参数并转化为Hash对象
      * @memberof T
      * @method GetRequest
      * @param {Boolean} isHash 必选，是否为location.hash
-     * @param {String} sign 必选，键值对分隔符
+     * @param {String} [sign=&] 可选，默认“&”，键值对分隔符
+     * @param {String} [flag==] 可选，默认“=”，键值分隔符
      * @returns {Object} 所有参数
+     * location.hash获取#后面的数据
+     *  location.search 获取？后面的数据
      */
-    T.GetRequest = function (isHash, sign) {
-        var hashs = isHash ? location.hash : location.search;//获取url中'?/#'符后的字符串
-        return T.DecodeHashString(hashs.replace(/^[?#]/, ''), sign);
+    T.GetRequest = function (isHash, sign,flag) {
+        var hashs = isHash ? location.hash : location.search;//获取url中'?或#'符后的字符串
+        return T.DecodeHashString(hashs.replace(/^[?#]/, ''), sign,flag);
     };
     /**
      * 对象继承
@@ -610,7 +613,7 @@ Date.prototype.Format = function (fmt) {
     /**
      * 21，
      * 文件上传格式和大小限制
-     * @param id 文件的html容器
+     * @param id  input的id，上传文件的input
      * @param formatArr 允许的格式数组。例如：[".jpg",".png",".rar",".txt",".zip",".doc"]
      * @param maxSzie 允许最大上传大小，单位：M
      */
@@ -633,20 +636,18 @@ Date.prototype.Format = function (fmt) {
                 }
             }
             if (!isAllowFormat) {
-                alert("不接受此文件类型！");
                 target.value = "";
-                return false;
+                return {data: false, mes: "没有匹配的格式"};
             }
         } else {
-            return false;
+            return {data: false, mes: "文件不存在"};
         }
         //2.判断是否存在
         if (isIE && !target.files) {
             var filePath = target.value;
             var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
             if (!fileSystem.FileExists(filePath)) {
-                alert("文件不存在，请重新输入！");
-                return false;
+                return {data: false, mes: "文件不存在"};
             }
             var file = fileSystem.GetFile(filePath);
             fileSize = file.Size;
@@ -656,16 +657,75 @@ Date.prototype.Format = function (fmt) {
         //3.判断大小
         var size = fileSize / 1024;
         if (size > filemaxsize) {
-            alert("文件大小不能大于" + filemaxsize / 1024 + "M！");
             target.value = "";
-            return false;
+            return {data: false, mes: "文件大小不能大于" + filemaxsize / 1024 + "M！"};
         }
         if (size <= 0) {
-            alert("文件大小不能为0M！");
             target.value = "";
-            return false;
+            return {data: false, mes: "文件大小不能为0M！"};
         }
-        return true;
-    }
+        return {data: true, mes: null};
+    };
+    /**
+     * 22，
+     * 下载文件流并转为blob对象再下载到本地
+     * 参数options，如下
+     * 依赖上面的  T.EncodeHashString方法,第7个
+     */
+    T.downloadBlob = function (options) {
+        // options = {
+        //     url: '',   //url地址
+        //     type: 'POST',   //请求类型  默认get
+        //     data: {},       //请求参数
+        //     callback: null,  //请求成功回调
+        //     filename: 'data.xlsx'    //请求文件名字,自动匹配的话需要获取blob里面type的类型，去“MIME 参考手册”匹配.
+        // };
+        var querySting = options.data ? T.EncodeHashString(options.data) : null;
+        var type = options.type ? options.type : "GET";
+        if (type.toUpperCase() !== "POST") {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", options.url + "?" + querySting, true);
+            xhr.responseType = "blob";
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var blob = this.response;
+                    var link = document.createElement('a');
+                    link.style.display = 'none';
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = options.filename;
+                    // 触发点击
+                    document.body.appendChild(link);
+                    link.click();
+                    // 然后移除
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(link.href);
+                    if (options.callback) options.callback();
+                }
+            };
+            xhr.send();
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", options.url, true);
+            xhr.responseType = "blob";
+            xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var blob = this.response;
+                    var link = document.createElement('a');
+                    link.style.display = 'none';
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = options.filename;
+                    // 触发点击
+                    document.body.appendChild(link);
+                    link.click();
+                    // 然后移除
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(link.href);
+                    if (options.callback) options.callback();
+                }
+            };
+            xhr.send(querySting);
+        }
+    };
     window.T = T;
 }(window, document));

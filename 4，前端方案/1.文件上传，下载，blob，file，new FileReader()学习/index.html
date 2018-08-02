@@ -56,7 +56,7 @@
         text-align: center;
     }
 
-    .upLoad {
+    .btn {
         position: absolute;
         width: 50px;
         height: 30px;
@@ -76,51 +76,76 @@
         <label class="choFile" for="upload">选择一个文件</label>
     </div>
     <p class="tz">可以拖拽进去</p>
-    <button class="upLoad">上传</button>
+    <button class="btn">上传</button>
 </div>
 </body>
 <!--//文件上传-->
 <script>
     let upload = document.querySelector("#upload");
+    let btn = document.querySelector(".btn");
     let choFile = document.querySelector(".choFile");
-    upload.onchange = function () {
-        let files = this.files;
-        //当上传文件为一个是，显示文件名，当文件多个显示文件数
-        if (files.length > 1) {
-            choFile.innerText = "上传" + files.length + "文件";
-        } else {
-            choFile.innerText = files[0].name;
-        }
-        for (let i = 0; i < files.length; i++) {
-            let file = files[i];
-            if (!!file) {
-                let fromData = new FormData();
-                fromData.append("xx", file);
-                xupload(fromData)
-            }
-            // if (!!file) {
-            //     var a = new FileReader();
-            //     let fromData = new FormData();
-            //     a.readAsBinaryString(file);
-            //     a.onload = function () {
-            //         var b = new Blob([this.result])
-            //         fromData.append("xx", file);
-            //         xupload(b)
-            //     };
-            // }
-        }
-    };
 
-    //文件上传
-    function xupload(binary) {
-        let xhr = new XMLHttpRequest();
-        // 监听变化
-        xhr.onload = function () {
-            console.log(xhr.response)
-        };
-        xhr.open("POST", "http://localhost:40209/api/test/Post?guid=a");
-        //直接发送二进制数据
-        xhr.send(binary);
+    function downloadEx(options) {
+        // options = {
+        //     url: '',   //url地址
+        //     type: 'POST',   //请求类型
+        //     data: {},       //请求参数
+        //     callback: null,  //请求成功回调
+        //     filename: 'data.xlsx'    //请求文件名字,自动匹配的话需要获取blob里面type的类型，去“MIME 参考手册”匹配.
+        // };
+        if(options.type.toUpperCase()==="GET"){
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET",options, true);
+            xhr.responseType = "blob";
+            xhr.onload = function() {
+
+            };
+            xhr.send();
+        }else {
+
+        }
     }
+    downloadEx({
+      type:"get"
+    });
+    // upload.onchange = function () {
+    //     let files = this.files;
+    //     //当上传文件为一个是，显示文件名，当文件多个显示文件数
+    //     if (files.length > 1) {
+    //         choFile.innerText = "上传" + files.length + "文件";
+    //     } else {
+    //         choFile.innerText = files[0].name;
+    //     }
+    //     for (let i = 0; i < files.length; i++) {
+    //         let file = files[i];
+    //         if (!!file) {
+    //             let fromData = new FormData();
+    //             fromData.append("xx", file);
+    //             xupload(fromData)
+    //         }
+    //         // if (!!file) {
+    //         //     var a = new FileReader();
+    //         //     let fromData = new FormData();
+    //         //     a.readAsBinaryString(file);
+    //         //     a.onload = function () {
+    //         //         var b = new Blob([this.result])
+    //         //         fromData.append("xx", file);
+    //         //         xupload(b)
+    //         //     };
+    //         // }
+    //     }
+    // };
+    //
+    // //文件上传
+    // function xupload(binary) {
+    //     let xhr = new XMLHttpRequest();
+    //     // 监听变化
+    //     xhr.onload = function () {
+    //         console.log(xhr.response)
+    //     };
+    //     xhr.open("POST", "http://localhost:40209/api/test/Post?guid=a");
+    //     //直接发送二进制数据
+    //     xhr.send(binary);
+    // }
 </script>
 </html>

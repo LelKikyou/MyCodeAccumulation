@@ -15,18 +15,15 @@
 </style>
 <body>
 <div class="a" id="rolePaginbar">
+    哈哈哈
 </div>
 </body>
 <script>
-    T.Paginbar({
-        num: 2,//显示能点击的页码数
-        size: 2,//每页多少条数据
-        total: 100,//总共多少页
-        index: 10, // 当前页码
-        paginbar: "rolePaginbar", // 容器ID
-        callback: function (obj, index, size, total) { // 点击页码回调
-            console.log(obj,index,size,total)
-        }
-    })
+    document.querySelector(".a").onclick=function () {
+        var b=location.search;
+        var a=T.EncodeHashString({a:1,b:2,c:"啊哈哈"});
+        console.log(b)
+        console.log(a)
+    }
 </script>
 </html>
