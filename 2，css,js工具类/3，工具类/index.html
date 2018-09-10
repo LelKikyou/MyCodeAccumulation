@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="tool.css">
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="tool.js"></script>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+</style>
+<body>
+<input type="text" value="" id="tf"/>
+<div style="width:400px; height:200px;border:1px solid #000;display:none" id="con">
+     <p>1111</p>
+     <p><span>2222</span></p>
+     <p><a href="#">3333</a></p>
+</div>
+</body>
+<script>
+    function e(obj) {
+        return document.getElementById(obj)
+    }
+
+    e('tf').onclick = function (event) {
+        e('con').style.display = 'block';
+        stopBubble(event);
+        document.onclick = function () {
+            e('con').style.display = 'none';
+            document.onclick = null;
+        }
+    };
+
+    e('con').onclick = function (event) {
+        //只阻止了向上冒泡，而没有阻止向下捕获，所以点击con的内部对象时，仍然可以执行这个函数
+        stopBubble(event);
+    };
+
+    //阻止冒泡函数
+    function stopBubble(e) {
+        if (e && e.stopPropagation) {
+            e.stopPropagation();  //w3c
+        } else {
+            window.event.cancelBubble = true; //IE
+        }
+    }
+</script>
+</html>

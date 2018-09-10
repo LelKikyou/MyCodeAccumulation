@@ -349,6 +349,27 @@
                 $self.find('span[data-value="' + dfop._value + '"]').trigger('click');
             }
         },
+        findItem: function (data, id, value) {
+            var _item = null;
+            _fn(data, id, value);
+
+            function _fn(_cdata, _id, _value) {
+                for (var i = 0, l = _cdata.length; i < l; i++) {
+                    if (_cdata[i][id] == value) {
+                        _item = _cdata[i];
+                        return true;
+                    }
+                    if (_cdata[i].hasChildren && _cdata[i].ChildNodes.length > 0) {
+                        if (_fn(_cdata[i].ChildNodes, _id, _value)) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            return _item;
+        },
         listTotree: function (data, parentId, id, text, value, check) {
             // 只适合小数据计算
             var resdata = [];

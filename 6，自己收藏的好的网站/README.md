@@ -3,3 +3,5 @@
 3，图片压缩优化：https://tinypng.com/。              </br>
 4，css兼容优化：http://autoprefixer.github.io/  </br>
 5，生成雪碧图的网站：https://www.toptal.com/developers/css/sprite-generator  </br>
+6,webp格式图片，加快加载：www.upyun.com/webp  </br>
+7，网页加载优化 https://juejin.im/post/5b0b7d74518825158e173a0c    </br>

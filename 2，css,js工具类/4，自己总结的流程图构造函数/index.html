@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="jquery-3.2.1.min.js"></script>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+
+    /*父级加上  position: relative;*/
+    #main {
+        position: relative;
+        width: 100%;
+        height: 140px;
+        background-color: #f3f7fa;
+    }
+
+
+    /*以下类的css*/
+    .flowbar{
+        width: 100%;
+        height: 100%;
+    }
+    .flowbar .flowbar-menu {
+        position: absolute;
+        text-align: center;
+        display: inline-block;
+        color: #325074;
+        font-size: 12px;
+        font-weight: bold;
+        border:2px solid #325074;
+        border-radius: 5px;
+    }
+    .flowbar .status {
+        background-color: #fff;
+    }
+    .flowbar .flowbar-menu .flowbar-menu-table {
+        text-align: center;
+        line-height: 30px;
+    }
+    .flowbar .flowbar-menu-recordcount {
+        position: absolute;
+        right: -4px;
+        top: -4px;
+        min-width: 16px;
+        height: 16px;
+        background-color: #f50000;
+        border-radius: 8px;
+        display: none;
+    }
+</style>
+<body>
+<div id="main">
+    <div id="flowbar"></div>
+</div>
+</body>
+<script>
+    //流程数据结构
+    var menusData = {
+        1: {
+            width: 110,
+            height: 30,
+            id: "1",
+            left: 40,
+            top: 54,
+            // menuinfo: {
+            //     id: "D06D4E47E02A49139A52DE3B94002E3D",
+            //     isoperation: "1",
+            //     levels: "3",
+            //     method: "..//sub2/yuzheng/biadm/bireg/bireg.js?Yuzheng.Biadm.Bireg",
+            //     name: "行政奖惩及管理措施登记",
+            //     parentid: "0FD3E6339B7741CE964A0BA48D8DF58D",
+            //     status: "P",
+            //     url: "..//sub2/yuzheng/biadm/bireg/bireg.ejs"
+            // },
+            name: "行政奖惩及管理措施登记",
+        },
+        2: {
+            width: 110,
+            height: 30,
+            id: "2",
+            left: 180,
+            top: 12,
+            // menuinfo: {
+            //     id: "940A1832A0954A5BAEF1ADD6A05D980C",
+            //     isoperation: "1",
+            //     levels: "3",
+            //     method: "Yuzheng.Biadm.Bidelay",
+            //     name: "延期",
+            //     parentid: "0FD3E6339B7741CE964A0BA48D8DF58D",
+            //     status: "P",
+            //     url: "..//sub2/yuzheng/biadm/bidelay/bidelay.ejs"
+            // },
+            name: "延期"
+        },
+        3: {
+            width: 110,
+            height: 30,
+            id: "3",
+            left: 180,
+            top: 96,
+            // menuinfo: {
+            //     id: "B69DCB179BF148CAAEB4490821A76143",
+            //     isoperation: "1",
+            //     levels: "3",
+            //     method: "..//sub2/yuzheng/biadm/biend/biend.js?Yuzheng.Biadm.Biend",
+            //     name: "行政管理撤销",
+            //     parentid: "0FD3E6339B7741CE964A0BA48D8DF58D",
+            //     status: "P",
+            //     url: "..//sub2/yuzheng/biadm/biend/biend.ejs"
+            // },
+            name: "行政管理撤销"
+        },
+        4: {
+            width: 110,
+            height: 30,
+            id: "4",
+            left: 330,
+            top: 54,
+            // menuinfo: {
+            //     id: "B69DCB179BF148CAAEB4490821A76143",
+            //     isoperation: "1",
+            //     levels: "3",
+            //     method: "..//sub2/yuzheng/biadm/biend/biend.js?Yuzheng.Biadm.Biend",
+            //     name: "行政管理撤销",
+            //     parentid: "0FD3E6339B7741CE964A0BA48D8DF58D",
+            //     status: "P",
+            //     url: "..//sub2/yuzheng/biadm/biend/biend.ejs"
+            // },
+            name: "哈哈哈"
+        }
+    };
+    //连线数据结构
+    var linesData = {
+        xx: {
+            flowbarmenufk: "1",
+            id: "xx",
+            nextflowbarmenufk: "3",
+            type: "sl" //直线
+        },
+        xwx: {
+            flowbarmenufk: "1",
+            id: "xx",
+            nextflowbarmenufk: "4",
+            type: "sl" //直线
+        },
+        cc: {
+            M: 50,
+            flowbarmenufk: "1",
+            id: "cc",
+            nextflowbarmenufk: "2",
+            type: "lr" //折线
+        },
+        vv: {
+            M: 350,
+            flowbarmenufk: "2",
+            name: "哈哈哈",
+            id: "vv",
+            nextflowbarmenufk: "3",
+            type: "lr" //折线
+        }
+    };
+    new Flowchart().init({
+        id: "flowbar",
+        menusData: menusData,
+        linesData: linesData
+    });
+
+    //流程图构造函数
+    function Flowchart() {
+        this.options = {
+            /**
+             * @public
+             * @static
+             * @description 点击节点触发事件
+             * 类型：Function(el)
+             * @default 无
+             * @example $("#flowbar").flowbar({onclick:function(el){}})
+             */
+            onclick: null,
+            /**
+             * @public
+             * @static
+             * @description 鼠标移动到节点触发事件
+             * 类型：Function(el)
+             * @default 无
+             * @example $("#flowbar").flowbar({onmousemove:function(){}})
+             */
+            onmousemove: null,
+            /**
+             * @public
+             * @static
+             * @description 鼠标移出节点触发事件
+             * 类型：Function(el)
+             * @default 无
+             * @example $("#flowbar").flowbar({onmouseout:function(){}})
+             */
+            onmouseout: null
+        };
+        //id  为容器id
+        this.init = function (op) {
+            this.element = $("#" + op.id);
+            this.element.addClass("flowbar");
+            this.width = this.element.width();
+            this.height = this.element.height();
+            this.$panel = $("<div></div>").appendTo(this.element);
+            //创建连线容器
+            this.linePanel = this._createLinePanel();
+            this.$panel.append(this.linePanel);
+            //创建菜单按钮
+            this._createMenus(op.menusData);
+            //创建连线
+            this._createLines(op.linesData);
+            // 重置宽高
+            this._resetWH();
+        };
+        /**
+         * @description 创建连线容器
+         * @function Private
+         */
+        this._createLinePanel = function () {
+            var linePanel;
+            if (this._isUseSVG()) {
+                linePanel = document.createElementNS("http://www.w3.org/2000/svg", "svg");//可创建带有指定命名空间的元素节点
+                var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+                linePanel.appendChild(defs);
+                defs.appendChild(this._getSvgMarker("arrow1", "#15428B"));
+                defs.appendChild(this._getSvgMarker("arrow2", "#ff3300"));
+                defs.appendChild(this._getSvgMarker("arrow3", "#ff3300"));
+            } else {
+                linePanel = document.createElement("v:group");
+            }
+            linePanel.style.width = "100%";
+            linePanel.style.height = "100%";
+            return linePanel;
+        };
+        /**
+         * @descript 获取svg标签的标记
+         * @param 标记的ID
+         * @param color标记颜色
+         * @function Private
+         */
+        this._getSvgMarker = function (id, color) {
+            var m = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+            m.setAttribute("id", id);
+            m.setAttribute("viewBox", "0 0 6 6");
+            m.setAttribute("refX", 5);
+            m.setAttribute("refY", 3);
+            m.setAttribute("markerUnits", "strokeWidth");
+            m.setAttribute("markerWidth", 6);
+            m.setAttribute("markerHeight", 6);
+            m.setAttribute("orient", "auto");
+            var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", "M 0 0 L 6 3 L 0 6 z");
+            path.setAttribute("fill", color);
+            path.setAttribute("stroke-width", 0);
+            m.appendChild(path);
+            return m;
+        };
+        /**
+         * @description 创建菜单按钮
+         * @function Private
+         * @param menuData 格式{widht:100,height:30,left:20,top:30}
+         */
+        this._createMenus = function (menuData) {
+            for (var id in menuData) {
+                var menu = menuData[id];
+                menu.left = menu.left;
+                menu.top = menu.top;
+                var $menu = this._createMenu(menu);
+                $menu.data("data", menu);
+                this.$panel.append($menu);
+                if ((menu.left + menu.width) > this.width) this.width = menu.left + menu.width;
+                if ((menu.top + menu.height) > this.height) this.height = menu.top + menu.height;
+            }
+        }
+        /**
+         * @description 创建一个菜单
+         * @param node 菜单信息 格式{color:"red",name:"",id:"",left:20,top:20,width:100,height:30}
+         * @function Private
+         */
+        this._createMenu = function (prop) {
+            var menu = $("<div class='flowbar-menu'>" +
+                "<div class='flowbar-menu-recordcount'></div>" +
+                "</div>").css({
+                left: prop.left,
+                top: prop.top,
+                cursor: "pointer"
+            }).attr({
+                id: prop.id
+            });
+            if(prop.name.length<8){
+                $("<div class='flowbar-menu-table'>" + prop.name + "</div>")
+                    .css({
+                        width: prop.width,
+                        height: prop.height
+                    }).appendTo(menu);
+            }else {
+                $("<div class='flowbar-menu-table'>" + prop.name + "</div>")
+                    .css({
+                        width: prop.width,
+                        height: prop.height,
+                        'line-height':prop.height/2+"px"
+                    }).appendTo(menu);
+            }
+            menu.addClass("status");
+            return menu;
+        }
+        /**
+         * @description 创建连线
+         * @function Private
+         */
+        this._createLines = function (lineData) {
+            for (var id in lineData) {
+                var line = lineData[id];
+                this._addLine(id, line);
+                if (line.type == "tb" && line.M > this.height) this.height = line.M;
+                if (line.type == "lr" && line.M > this.width) this.width = line.M;
+            }
+        };
+        /**
+         * @description 添加连线
+         * @param json 连线信息 格式{name:"",flowbarmenufk:"",nextflowbarmenufk:"",type:"",M:50}
+         * @param id 连线的id
+         * @function Private
+         */
+        this._addLine = function (id, json) {
+            if (!json.name) json.name = "";
+            if (json.flowbarmenufk == json.nextflowbarmenufk) return;
+            var n1 = $("#" + json.flowbarmenufk).data("data"), n2 = $("#" + json.nextflowbarmenufk).data("data");
+            if (!n1 || !n2) return;
+            var res;
+            if (json.type && json.type != "sl")
+                res = this._calcPolyPoints(n1, n2, json.type, json.M);
+            else
+                res = this._calcStartEnd(n1, n2);
+            if (!res) return;
+
+            var lineDom;
+            if (json.type == "sl")
+                lineDom = this._drawLine(id, res.start, res.end, json.mark);
+            else
+                lineDom = this._drawPoly(id, res.start, res.m1, res.m2, res.end, json.mark);
+            this.linePanel.appendChild(lineDom);
+            if (!this._isUseSVG()) {
+                lineDom.childNodes[1].innerHTML = json.name;
+                if (json.type != "sl") {
+                    var Min = (res.start[0] > res.end[0] ? res.end[0] : res.start[0]);
+                    if (Min > res.m2[0]) Min = res.m2[0];
+                    if (Min > res.m1[0]) Min = res.m1[0];
+                    lineDom.childNodes[1].style.left = (res.m2[0] + res.m1[0]) / 2 - Min - lineDom.childNodes[1].offsetWidth / 2 + 4;
+                    Min = (res.start[1] > res.end[1] ? res.end[1] : res.start[1]);
+                    if (Min > res.m2[1]) Min = res.m2[1];
+                    if (Min > res.m1[1]) Min = res.m1[1];
+                    lineDom.childNodes[1].style.top = (res.m2[1] + res.m1[1]) / 2 - Min - lineDom.childNodes[1].offsetHeight / 2;
+                } else
+                    lineDom.childNodes[1].style.left =
+                        ((res.end[0] - res.start[0]) * (res.end[0] > res.start[0] ? 1 : -1) - lineDom.childNodes[1].offsetWidth) / 2 + 4;
+            }
+            else lineDom.childNodes[2].textContent = json.name;
+        }
+        /**
+         * @description 计算直线连线的开始坐标和结束坐标
+         * @function private
+         * @param n1 开始菜单
+         * @param n2 结束菜单
+         */
+        this._calcStartEnd = function (n1, n2) {
+            var pleft = this.element.position().left;
+            var ptop = this.element.position().top;
+            var X_1, Y_1, X_2, Y_2;
+            //X判断：
+            var x11 = n1.left - pleft, x12 = n1.left - pleft + n1.width, x21 = n2.left - pleft,
+                x22 = n2.left - pleft + n2.width;
+            //结点2在结点1左边
+            if (x11 >= x22) {
+                X_1 = x11;
+                X_2 = x22;
+            }
+            //结点2在结点1右边
+            else if (x12 <= x21) {
+                X_1 = x12;
+                X_2 = x21;
+            }
+            //结点2在结点1水平部分重合
+            else if (x11 <= x21 && x12 >= x21 && x12 <= x22) {
+                X_1 = (x12 + x21) / 2;
+                X_2 = X_1;
+            }
+            else if (x11 >= x21 && x12 <= x22) {
+                X_1 = (x11 + x12) / 2;
+                X_2 = X_1;
+            }
+            else if (x21 >= x11 && x22 <= x12) {
+                X_1 = (x21 + x22) / 2;
+                X_2 = X_1;
+            }
+            else if (x11 <= x22 && x12 >= x22) {
+                X_1 = (x11 + x22) / 2;
+                X_2 = X_1;
+            }
+
+            //Y判断：
+            var y11 = n1.top - ptop, y12 = n1.top - ptop + n1.height, y21 = n2.top - ptop,
+                y22 = n2.top - ptop + n2.height;
+            //结点2在结点1上边
+            if (y11 >= y22) {
+                Y_1 = y11;
+                Y_2 = y22;
+            }
+            //结点2在结点1下边
+            else if (y12 <= y21) {
+                Y_1 = y12;
+                Y_2 = y21;
+            }
+            //结点2在结点1垂直部分重合
+            else if (y11 <= y21 && y12 >= y21 && y12 <= y22) {
+                Y_1 = (y12 + y21) / 2;
+                Y_2 = Y_1;
+            }
+            else if (y11 >= y21 && y12 <= y22) {
+                Y_1 = (y11 + y12) / 2;
+                Y_2 = Y_1;
+            }
+            else if (y21 >= y11 && y22 <= y12) {
+                Y_1 = (y21 + y22) / 2;
+                Y_2 = Y_1;
+            }
+            else if (y11 <= y22 && y12 >= y22) {
+                Y_1 = (y11 + y22) / 2;
+                Y_2 = Y_1;
+            }
+            return {"start": [X_1, Y_1], "end": [X_2, Y_2]};
+        }
+        /**
+         * @description 计算折线的所有坐标
+         * @function private
+         * @param n1 开始菜单
+         * @param n2 结束菜单
+         * @param type 连线类型
+         * @param M 中段的X(或Y)的坐标
+         */
+        this._calcPolyPoints = function (n1, n2, type, M) {
+            var pleft = this.element.position().left;
+            var ptop = this.element.position().top;
+            //开始/结束两个结点的中心
+            var SP = {x: n1.left - pleft + n1.width / 2, y: n1.top - ptop + n1.height / 2};
+            var EP = {x: n2.left - pleft + n2.width / 2, y: n2.top - ptop + n2.height / 2};
+            var sp = [], m1 = [], m2 = [], ep = [];
+            //如果是允许中段可左右移动的折线,则参数M为可移动中段线的X坐标
+            //粗略计算起始点
+            sp = [SP.x, SP.y];
+            ep = [EP.x, EP.y];
+            if (type == "lr") {
+                //粗略计算2个中点
+                M = M - pleft;
+                m1 = [M, SP.y];
+                m2 = [M, EP.y];
+                //再具体分析修改开始点和中点1
+                if (m1[0] > n1.left - pleft && m1[0] < n1.left - pleft + n1.width) {
+                    m1[1] = (SP.y > EP.y ? n1.top - ptop : n1.top - ptop + n1.height);
+                    sp[0] = m1[0];
+                    sp[1] = m1[1];
+                }
+                else {
+                    sp[0] = (m1[0] < n1.left - pleft ? n1.left - pleft : n1.left - pleft + n1.width);
+                }
+                //再具体分析中点2和结束点
+                if (m2[0] > n2.left - pleft && m2[0] < n2.left - pleft + n2.width) {
+                    m2[1] = (SP.y > EP.y ? n2.top - ptop + n2.height : n2.top - ptop);
+                    ep[0] = m2[0];
+                    ep[1] = m2[1];
+                }
+                else {
+                    ep[0] = (m2[0] < n2.left - pleft ? n2.left - pleft : n2.left - pleft + n2.width);
+                }
+            }
+            //如果是允许中段可上下移动的折线,则参数M为可移动中段线的Y坐标
+            else if (type == "tb") {
+                M = M - ptop;
+                //粗略计算2个中点
+                m1 = [SP.x, M];
+                m2 = [EP.x, M];
+                //再具体分析修改开始点和中点1
+                if (m1[1] > n1.top - ptop && m1[1] < n1.top - ptop + n1.height) {
+                    m1[0] = (SP.x > EP.x ? n1.left - pleft : n1.left - pleft + n1.width);
+                    sp[0] = m1[0];
+                    sp[1] = m1[1];
+                }
+                else {
+                    sp[1] = (m1[1] < n1.top - ptop ? n1.top - ptop : n1.top - ptop + n1.height);
+                }
+                //再具体分析中点2和结束点
+                if (m2[1] > n2.top - ptop && m2[1] < n2.top - ptop + n2.height) {
+                    m2[0] = (SP.x > EP.x ? n2.left - pleft + n2.width : n2.left - pleft);
+                    ep[0] = m2[0];
+                    ep[1] = m2[1];
+                }
+                else {
+                    ep[1] = (m2[1] < n2.top - ptop ? n2.top - ptop : n2.top - ptop + n2.height);
+                }
+            }
+            return {start: sp, m1: m1, m2: m2, end: ep};
+        }
+        /**
+         * @description 绘制一条带箭头的连线，并返回连线的dom
+         * @param id 连线id
+         * @param sp 起始坐标
+         * @param ep 结束坐标
+         * @function Private
+         */
+        this._drawLine = function (id, sp, ep, mark, dash) {
+            var line;
+            if (this._isUseSVG()) {
+                line = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                var hi = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+                if (id != "") line.setAttribute("id", id);
+                line.setAttribute("flowbarmenufk", sp[0] + "," + sp[1]);
+                line.setAttribute("nextflowbarmenufk", ep[0] + "," + ep[1]);
+                hi.setAttribute("visibility", "hidden");
+                hi.setAttribute("stroke-width", 9);
+                hi.setAttribute("fill", "none");
+                hi.setAttribute("stroke", "white");
+                hi.setAttribute("d", "M " + sp[0] + " " + sp[1] + " L " + ep[0] + " " + ep[1]);
+                hi.setAttribute("pointer-events", "stroke");
+                path.setAttribute("d", "M " + sp[0] + " " + sp[1] + " L " + ep[0] + " " + ep[1]);
+                path.setAttribute("stroke-width", 1.4);
+                path.setAttribute("stroke-linecap", "round");
+                path.setAttribute("fill", "none");
+                if (dash) path.setAttribute("style", "stroke-dasharray:6,5");
+                if (mark) {
+                    path.setAttribute("stroke", "#ff3300");
+                    path.setAttribute("marker-end", "url(#arrow2)");
+                }
+                else {
+                    path.setAttribute("stroke", "#5068AE");
+                    path.setAttribute("marker-end", "url(#arrow1)");
+                }
+                line.appendChild(hi);
+                line.appendChild(path);
+                line.style.cursor = "crosshair";
+                if (id != "" && id != "GooFlow_tmp_line") {
+                    var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    //text.textContent=id;
+                    line.appendChild(text);
+                    var x = (ep[0] + sp[0]) / 2;
+                    var y = (ep[1] + sp[1]) / 2;
+                    text.setAttribute("text-anchor", "middle");
+                    text.setAttribute("x", x);
+                    text.setAttribute("y", y);
+                    line.style.cursor = "pointer";
+                    text.style.cursor = "text";
+                }
+            } else {
+                line = document.createElement("v:polyline");
+                if (id != "") line.id = id;
+                //line.style.position="absolute";
+                line.points.value = sp[0] + "," + sp[1] + " " + ep[0] + "," + ep[1];
+                line.setAttribute("fromTo", sp[0] + "," + sp[1] + "," + ep[0] + "," + ep[1]);
+                line.strokeWeight = "1.2";
+                line.stroke.EndArrow = "Block";
+                line.style.cursor = "crosshair";
+                if (id != "" && id != "GooFlow_tmp_line") {
+                    var text = document.createElement("div");
+                    //text.innerHTML=id;
+                    line.appendChild(text);
+                    var x = (ep[0] - sp[0]) / 2;
+                    var y = (ep[1] - sp[1]) / 2;
+                    if (x < 0) x = x * -1;
+                    if (y < 0) y = y * -1;
+                    text.style.left = x + "px";
+                    text.style.top = y - 6 + "px";
+                    line.style.cursor = "pointer";
+                }
+                if (dash) line.stroke.dashstyle = "Dash";
+                if (mark) line.strokeColor = "#ff3300";
+                else line.strokeColor = "#5068AE";
+            }
+            return line;
+        }
+        /**
+         * @description 画一条只有两个中点的折线
+         * @function private
+         * @param id 连线id
+         * @param sp 开始菜单坐标
+         * @param m1 开始菜单中断的x(y)坐标
+         * @param m2 结束菜单中断的x(y)坐标
+         * @param ep 结束菜单坐标
+         * @param mark 标记
+         */
+        this._drawPoly = function (id, sp, m1, m2, ep, mark) {
+            var poly, strPath;
+            if (this._isUseSVG()) {
+                poly = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                var hi = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                if (id != "") poly.setAttribute("id", id);
+                poly.setAttribute("flowbarmenufk", sp[0] + "," + sp[1]);
+                poly.setAttribute("nextflowbarmenufk", ep[0] + "," + ep[1]);
+                hi.setAttribute("visibility", "hidden");
+                hi.setAttribute("stroke-width", 9);
+                hi.setAttribute("fill", "none");
+                hi.setAttribute("stroke", "white");
+                strPath = "M " + sp[0] + " " + sp[1];
+                if (m1[0] != sp[0] || m1[1] != sp[1])
+                    strPath += " L " + m1[0] + " " + m1[1];
+                if (m2[0] != ep[0] || m2[1] != ep[1])
+                    strPath += " L " + m2[0] + " " + m2[1];
+                strPath += " L " + ep[0] + " " + ep[1];
+                hi.setAttribute("d", strPath);
+                hi.setAttribute("pointer-events", "stroke");
+                path.setAttribute("d", strPath);
+                path.setAttribute("stroke-width", 1.4);
+                path.setAttribute("stroke-linecap", "round");
+                path.setAttribute("fill", "none");
+                if (mark) {
+                    path.setAttribute("stroke", "#ff3300");
+                    path.setAttribute("marker-end", "url(#arrow2)");
+                }
+                else {
+                    path.setAttribute("stroke", "#5068AE");
+                    path.setAttribute("marker-end", "url(#arrow1)");
+                }
+                poly.appendChild(hi);
+                poly.appendChild(path);
+                var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                //text.textContent=id;
+                poly.appendChild(text);
+                var x = (m2[0] + m1[0]) / 2;
+                var y = (m2[1] + m1[1]) / 2;
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("x", x);
+                text.setAttribute("y", y);
+                text.style.cursor = "text";
+                poly.style.cursor = "pointer";
+            }
+            else {
+                poly = document.createElement("v:Polyline");
+                if (id != "") poly.id = id;
+                poly.filled = "false";
+                strPath = sp[0] + "," + sp[1];
+                if (m1[0] != sp[0] || m1[1] != sp[1])
+                    strPath += " " + m1[0] + "," + m1[1];
+                if (m2[0] != ep[0] || m2[1] != ep[1])
+                    strPath += " " + m2[0] + "," + m2[1];
+                strPath += " " + ep[0] + "," + ep[1];
+                poly.points.value = strPath;
+                poly.setAttribute("fromTo", sp[0] + "," + sp[1] + "," + ep[0] + "," + ep[1]);
+                poly.strokeWeight = "1.2";
+                poly.stroke.EndArrow = "Block";
+                var text = document.createElement("div");
+                //text.innerHTML=id;
+                poly.appendChild(text);
+                var x = (m2[0] - m1[0]) / 2;
+                var y = (m2[1] - m1[1]) / 2;
+                if (x < 0) x = x * -1;
+                if (y < 0) y = y * -1;
+                text.style.left = x + "px";
+                text.style.top = y - 4 + "px";
+                poly.style.cursor = "pointer";
+                if (mark) poly.strokeColor = "#ff3300";
+                else poly.strokeColor = "#5068AE";
+            }
+            return poly;
+        }
+        /**
+         * @description 重置高度和宽度
+         * @function private
+         */
+        this._resetWH = function () {
+            this.linePanel.style.width = this.width + "px";
+            this.linePanel.style.height = this.height + "px";
+        }
+        /**
+         * @description 判断是否使用svg标签
+         * @function private
+         */
+        this._isUseSVG = function () {
+            if (navigator.userAgent.indexOf("MSIE 8.0") > 0 || navigator.userAgent.indexOf("MSIE 7.0") > 0 || navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+</script>
+</html>

@@ -530,8 +530,8 @@
             dfop.isload = true;
         }
         else if (!!dfop.data) {
-            dfop.isload = true;
-            dfop.backdata = dfop.data;
+                dfop.isload = true;
+                dfop.backdata = dfop.data;
         }
         else {// 最后是html方式获取（只适合数据比较少的情况）
             $.lrselect.htmlToData($self);

@@ -3,6 +3,7 @@
 
 /**
  * 1，
+ * 获取当前年月日
  * fmt输入"yyyy--mm--ddd--hh-ii-ss",也可以单个显示比如yyyy-mm-dd，符号自己可选
  * **/
 Date.prototype.Format = function (fmt) {

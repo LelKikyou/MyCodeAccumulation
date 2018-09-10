@@ -51,6 +51,8 @@
     //数据全部加载完后执行
     Pace.on('done', function () {
         $('#loadbg').fadeOut();
+        //这个参数可以让其他页面的请求无法触发pace(只在页面加载进来的时候触发pace，其他页面请求不加载)，如果不配置，如iframe页面请求时也会触发顶级页面的pace。
+        Pace.options.target = '#Sdcmpacenone';
     });
 </script>
 

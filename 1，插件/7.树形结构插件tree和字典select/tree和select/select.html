@@ -19,9 +19,11 @@
         margin: 0;
         padding: 0;
     }
-    body{
+
+    body {
         font-size: 12px;
     }
+
     #ZJLX {
         position: absolute;
         top: 200px;
@@ -33,7 +35,8 @@
 </style>
 
 <body>
-    <div id="ZJLX"></div>
+<button class="btn">点击</button>
+<div id="ZJLX"></div>
 </body>
 <script>
     var a = [{
@@ -44,7 +47,7 @@
         id: "a5548f15-1565-4812-ba29-403d09dfd386",
         isexpand: true,
         parentId: "0",
-        showcheck: false,
+        showcheck: true,
         text: "本人或户主",
         title: null,
         value: "0",
@@ -56,7 +59,7 @@
             id: "011111",
             isexpand: true,
             parentId: "a5548f15-1565-4812-ba29-403d09dfd386",
-            showcheck: false,
+            showcheck: true,
             text: "本人",
             title: null,
             value: "01",
@@ -69,51 +72,37 @@
             id: "022222",
             isexpand: true,
             parentId: "a5548f15-1565-4812-ba29-403d09dfd386",
-            showcheck: false,
+            showcheck: true,
             text: "本人户主",
             title: null,
             value: "02",
             ChildNodes: []
         }]
     },
-    {
-        checkstate: 0,
-        complete: true,
-        hasChildren: false,
-        icon: null,
-        id: "2222222",
-        isexpand: true,
-        parentId: "0",
-        showcheck: false,
-        text: "大爷",
-        title: null,
-        value: "1",
-        ChildNodes: []
-    }];
-
-    var data = {
-        allowSearch
-            :
-            true,
-        maxHeight
-            :
-            "200",
-        param
-            :
-            { itemCode: "ZhengJianLX", parentId: "0" },
-        type
-            :
-            "tree",
-        url
-            :
-            "/LR_SystemModule/DataItem/GetDetailTree",
-        value
-            :
-            "value"
-    }
-    $('#ZJLX').lrselect(data);
-    $('#ZJLX').lrselectSet("01");
-    console.log($('#ZJLX').lrselectGet("本人"))
+        {
+            checkstate: 0,
+            complete: true,
+            hasChildren: false,
+            icon: null,
+            id: "2222222",
+            isexpand: true,
+            parentId: "0",
+            showcheck: true,
+            text: "大爷",
+            title: null,
+            value: "1",
+            ChildNodes: []
+        }];
+    $('#ZJLX').lrselect({
+        data: a,
+        text:"text",
+    });
+    
+    $('#ZJLX').lrselectSet("2222222");
+    console.log($('#ZJLX').lrselectGet())
+    $(".btn").click(function () {
+        console.log(a)
+    })
 </script>
 
 </html>
