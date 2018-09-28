@@ -7,10 +7,34 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="xx"></div>
+<button class="btn">登录1</button>
+<button class="btn2">登录2</button>
 </body>
 <script src="jquery-3.3.1.min.js"></script>
 <script>
-    $("#xx").append("<div>111</div>")
+    var url = "http://192.168.0.117:11000/";
+    var a = "auth/loginIn";
+    var toke = "";
+    $(".btn").click(function () {
+        $.post(url + a, {
+            username: "admin",
+            password: "1112111"
+        }, (res) => {
+            toke = res.data;
+        })
+    });
+    $(".btn2").click(function () {
+        $.ajax({
+            url: url + "jianyu/auser/list",
+            type: "get",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8",
+                "Authorization": toke,
+            },
+            success: function (res) {
+                
+            }
+        })
+    })
 </script>
 </html>
