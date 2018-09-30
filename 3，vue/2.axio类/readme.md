@@ -1,4 +1,2 @@
-1,vue控件，来自于https://github.com/ustbhuangyi/better-scroll/blob/master/example/components/slide/slide.vue
-#我自己修改了下面的页码原点
-2， props里面的参数为初始值
-3，用法见图1，引入控件，在里面写内容就可以了。
+# axios 请求类
+创建的一个axios实例，配置请求队列，重复请求只响应最后一个。
