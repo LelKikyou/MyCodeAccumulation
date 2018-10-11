@@ -33,5 +33,17 @@ cat hqy ，查看hqy文件里面的内容
 vim hqy 进入文件  
 ![文件操作](./img/2.png)  
 按i 插入修改，esc退出操作，y复制...  
-:w保存，：wq保存并退出，：q！强退 
-xx
+:w保存，：wq保存并退出，：q！强退
+* * *
+# 关机操作
+- 注意  
+![操作](./img/3.png)  
+sync 数据保存到磁盘  
+- shutdown  
+![操作](./img/4.png)  
+一般用 shutdown -h now 马上关机  
+shutdown -h 12:00：12点关机 或 shutdown -h +10：10小时后  
+* * *
+# 打包和压缩
+- 打包  
+![打包](./img/5.png)  
