@@ -27,4 +27,4 @@
 删除文件 rm hqy  
 复制文件 cp hqy a  复制hqy更名为a  
 复制多个文件 cp hqy a /xx  必须先创建目录xx  
-![文件操作](./img/1.png)
+文件操作：![文件操作](./img/1.png)
