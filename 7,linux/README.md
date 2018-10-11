@@ -44,6 +44,6 @@ sync 数据保存到磁盘
 一般用 shutdown -h now 马上关机  
 shutdown -h 12:00：12点关机 或 shutdown -h +10：10小时后  
 * * *
-# 打包和压缩
-- 打包  
-![打包](./img/5.png)  
+# r软件安装
+- Yum安装  
+ ![操作](./img/5.png)  
