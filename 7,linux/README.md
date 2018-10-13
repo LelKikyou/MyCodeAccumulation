@@ -1,7 +1,7 @@
 # 目录操作
 #### 1 切换用户  
 ```
-- su 例 su huangqiyong;  
+su 例 su huangqiyong;  
 ```
 #### 2 快捷键  
 - ctrl+a,把光标调到命令行开头  
