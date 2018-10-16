@@ -15,7 +15,7 @@
             index  index.html index.htm;
         }
 ~~~
-        配置一个端口，打开nginx服务后，所以的ajax请求只要是/musichall开头，比如http://localhost:/musichall，都会默认转换到https://c.y.qq.com上，完成反向代理。   
+配置一个端口，打开nginx服务后，所以的ajax请求只要是/musichall开头，比如http://localhost:/musichall，都会默认转换到https://c.y.qq.com上，完成反向代理。   
 ~~~
         location /musichall {
            add_header Access-Control-Allow-Origin *;
