@@ -1,4 +1,4 @@
-# 目录操作
+﻿# 目录操作
 #### 1 切换用户  
 ```
 su 例 su huangqiyong;  
@@ -52,12 +52,3 @@ shutdown -h 12:00：12点关机 或 shutdown -h +10：10小时后
  查看yum源里面的版本：yum list | grep nginx  
  如果发现其中没有你要的版本，就自己创建一个yum仓库，例：vim /etc/yum.repos.d/nginx.repo（新建一个nginx仓库），在里面写入nginx网络资源，把以下资源放入，：wq保存退出就行了，退出后yum list | grep nginx，查看yum里面的版本。  
  ![yum资源](./img/6.png)
-# nginx
-~~~
-nginx 启动   
-killall nginx 关闭进程   
-lsof -i :8080 查看端口进程   
-nginx -s stop 关闭   
-nginx -s reload 重启   
-iptables -F 关闭防火墙
-~~~
