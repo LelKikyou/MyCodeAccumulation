@@ -4,6 +4,7 @@
      如图1
 - 2，下载下来解压到一个盘，如图2，cmd命令，D:切换到D盘，cd nginx 切换到目录下。   
    start nginx 启动命令   
+   nginx -s quit 从容停止
    nginx -s stop 停止命令   
    nginx -s reload 重启命令   
    每次修改完都要重启。
