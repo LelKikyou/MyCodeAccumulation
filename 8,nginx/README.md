@@ -23,4 +23,5 @@ service nginx stop  停止
 service nginx restart 重启
 nginx -s reload 在重新编写或者修改Nginx的配置文件后，都需要作一下重新载入
 lsof -i :8080 查看端口进程
+netstat -tlnp 查看所有端口
 ~~~
