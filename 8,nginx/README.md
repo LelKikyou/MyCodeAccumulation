@@ -31,3 +31,14 @@ netstat -tlnp 查看所有端口
      nginx -s stop 停止命令   
      nginx -s reload 重启命令 
 ~~~
+***
+### 错误页面设置
+- 当出现错误时候跳转页面设置
+![错误设置](./img/1.png)   
+设置404错误，并设置跳转到的页面和跳转情况，在文件html下加404_error.html文件就行了
+### ip权限访问
+~~~
+allow:允许访问的ip，不能同时设置多个，如果有多个 IP 需要设置，需要重复使用 allow 指令，allow all（全部访问）
+deny ：禁止ip，和上面一样。
+~~~
+![顺序](./img/2.png) ![访问权限](./img/2.png) 
