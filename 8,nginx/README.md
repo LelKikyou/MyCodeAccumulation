@@ -41,4 +41,4 @@ netstat -tlnp 查看所有端口
 allow:允许访问的ip，不能同时设置多个，如果有多个 IP 需要设置，需要重复使用 allow 指令，allow all（全部访问）
 deny ：禁止ip，和上面一样。
 ~~~
-![顺序](./img/2.png) ![访问权限](./img/2.png) 
+![顺序](./img/2.png) ![访问权限](./img/3.png) 
