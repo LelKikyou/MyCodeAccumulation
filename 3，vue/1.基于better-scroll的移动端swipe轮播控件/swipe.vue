@@ -1,234 +1,83 @@
-<template>
-  <div class="slide" ref="slide">
-    <div class="slide-group" ref="slideGroup">
-      <slot>
-      </slot>
-    </div>
-    <div v-if="showDot" class="dots">
-      <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots"></span>
-    </div>
+﻿<template>
+  <div ref="wrapper" class="scroll">
+    <slot></slot>
   </div>
 </template>
-
 <script>
-import BScroll from "better-scroll";
-export default {
-  props: {
-    //是否轮播
-    loop: {
-      type: Boolean,
-      default: true
-    },
-    //自动播放
-    autoPlay: {
-      type: Boolean,
-      default: false
-    },
-    interval: {
-      type: Number,
-      default: 2000
-    },
-    showDot: {
-      type: Boolean,
-      default: true
-    },
-    click: {
-      type: Boolean,
-      default: true
-    },
-    threshold: {
-      type: Number,
-      default: 0.3
-    },
-    speed: {
-      type: Number,
-      default: 400
-    }
-  },
-  data() {
-    return {
-      dots: [],
-      currentPageIndex: 0
-    };
-  },
-  mounted() {
-    this.update();
-    window.addEventListener("resize", () => {
-      if (!this.slide || !this.slide.enabled) {
-        return;
+  import BScroll from "better-scroll";
+
+  export default {
+    props: {
+      //滚动类型，有1，2,3三种类型
+      /**当 probeType 为 1 的时候，会非实时（屏幕滑动超过一定时间后）派发scroll 事件；
+       当 probeType 为 2 的时候，会在屏幕滑动的过程中实时的派发 scroll 事件；
+       当 probeType 为 3 的时候，不仅在屏幕滑动的过程中，而且在 momentum 滚动动画运行过程中实时派发 scroll 事件。如果没有设置该值，其默认值为 0，即不派发 scroll 事件。**/
+      probeType: {
+        type: Number,
+        default: 0
+      },
+      click: {
+        type: Boolean,
+        default: true
+      },
+      //开启监听滚动事件
+      scrollLock: {
+        type: Boolean,
+        default: false
+      },
+      //开启滚动结束监听事件
+      scrollEndLock: {
+        type: Boolean,
+        default: false
+      },
+      data: {
+        type: Array,
+        default: null
       }
-      clearTimeout(this.resizeTimer);
-      this.resizeTimer = setTimeout(() => {
-        if (this.slide.isInTransition) {
-          this._onScrollEnd();
-        } else {
-          if (this.autoPlay) {
-            this._play();
-          }
+    },
+    methods: {
+      _initScroll() {
+        if (!this.$refs.wrapper) {
+          return;
         }
-        this.refresh();
-      }, 60);
-    });
-  },
-  activated() {
-    if (!this.slide) {
-      return;
-    }
-    this.slide.enable();
-    let pageIndex = this.slide.getCurrentPage().pageX;
-    this.slide.goToPage(pageIndex, 0, 0);
-    this.currentPageIndex = pageIndex;
-    if (this.autoPlay) {
-      this._play();
-    }
-  },
-  deactivated() {
-    this.slide.disable();
-    clearTimeout(this.timer);
-  },
-  beforeDestroy() {
-    this.slide.disable();
-    clearTimeout(this.timer);
-  },
-  methods: {
-    update() {
-      if (this.slide) {
-        this.slide.destroy();
-      }
-      this.$nextTick(() => {
-        this.init();
-      });
-    },
-    refresh() {
-      this._setSlideWidth(true);
-      this.slide.refresh();
-    },
-    prev() {
-      this.slide.prev();
-    },
-    next() {
-      this.slide.next();
-    },
-    init() {
-      clearTimeout(this.timer);
-      this.currentPageIndex = 0;
-      this._setSlideWidth();
-      if (this.showDot) {
-        this._initDots();
-      }
-      this._initSlide();
-      if (this.autoPlay) {
-        this._play();
-      }
-    },
-    _setSlideWidth(isResize) {
-      this.children = this.$refs.slideGroup.children;
-      let width = 0;
-      let slideWidth = this.$refs.slide.clientWidth;
-      for (let i = 0; i < this.children.length; i++) {
-        let child = this.children[i];
-        child.classList.add("slide-item");
-        child.style.width = slideWidth + "px";
-        width += slideWidth;
-      }
-      if (this.loop && !isResize) {
-        width += 2 * slideWidth;
-      }
-      this.$refs.slideGroup.style.width = width + "px";
-    },
-    _initSlide() {
-      this.slide = new BScroll(this.$refs.slide, {
-        scrollX: true,
-        scrollY: false,
-        momentum: false,
-        snap: {
-          loop: this.loop,
-          threshold: this.threshold,
-          speed: this.speed
-        },
-        bounce: false,
-        stopPropagation: true,
-        click: this.click
-      });
-      this.slide.on("scrollEnd", this._onScrollEnd);
-      this.slide.on("touchEnd", () => {
-        if (this.autoPlay) {
-          this._play();
+        this.scroll = new BScroll(this.$refs.wrapper, {
+          probeType: this.probeType,
+          click: this.click
+        });
+        if (this.scrollLock) {
+          //滚动过程中的{Object} {x, y} 滚动的实时坐标,滚动过程中
+          this.scroll.on('scroll', (pos) => {
+            this.$emit('scroll', pos)
+          })
         }
-      });
-      this.slide.on("beforeScrollStart", () => {
-        if (this.autoPlay) {
-          clearTimeout(this.timer);
+        if (this.scrollEndLock) {
+          //{Object} {x, y} 滚动结束的位置坐标,触发时机：滚动结束。
+          this.scroll.on('scrollEnd', (pos) => {
+            this.$emit('scrollToEnd', pos)
+          })
         }
-      });
-    },
-    _onScrollEnd() {
-      let pageIndex = this.slide.getCurrentPage().pageX;
-      this.currentPageIndex = pageIndex;
-      if (this.autoPlay) {
-        this._play();
+      },
+      refresh() {
+        this.scroll && this.scroll.refresh();
       }
     },
-    _initDots() {
-      this.dots = new Array(this.children.length);
+    mounted() {
+      this.$nextTick(function () {
+        this._initScroll();
+      });
     },
-    _play() {
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        this.slide.next();
-      }, this.interval);
+    watch: {
+      data() {
+        this.$nextTick(function () {
+          this.refresh();
+        });
+      }
     }
-  },
-  watch: {
-    loop() {
-      this.update();
-    },
-    autoPlay() {
-      this.update();
-    },
-    speed() {
-      this.update();
-    },
-    threshold() {
-      this.update();
-    }
-  }
-};
+  };
 </script>
-<style>
-.slide {
-  min-height: 1px;
-  position: relative;
-}
-.slide-group {
-  overflow: hidden;
-  white-space: nowrap;
-}
-.slide-item {
-  float: left;
-  overflow: hidden;
-  text-align: center;
-}
-.dots {
-  position: absolute;
-  right: 0;
-  left: 0;
-  bottom: 12px;
-  text-align: center;
-  font-size: 0;
-}
-.dot {
-  display: inline-block;
-  margin: 0 5px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #8c8c8c;
-}
-.dot.active {
-  padding: 0 5px;
-  margin: 0;
-  border-radius: 5px;
-  background-color: #f0f0f0;
-}
+<style scoped>
+  .scroll {
+    width: 100%;
+    height: 100%;
+  }
 </style>
