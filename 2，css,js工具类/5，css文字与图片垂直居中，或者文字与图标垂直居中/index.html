@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .imgWrapper{
+        text-align: center;
+        margin: 0 auto;
+        background-color: bisque;
+        width: 500px;
+        height: 200px;
+        /* 首先父元素给上 */
+        line-height: 200px;
+        font-size: 0;
+    }
+    .img{
+        width: 50px;
+        height: 100px;
+        /* 子元素 */
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .w{
+        font-size: 20px;
+         /* 子元素 */
+        display: inline-block;
+        vertical-align: middle;
+    }
+</style>
+<body>
+    <div class="imgWrapper">
+        <img class="img" src="">
+        <span class="w">我是文字</span>
+    </div>
+</body>
+</html>
