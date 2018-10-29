@@ -83,6 +83,10 @@ class HttpAsynAxios {
         })
     }
     //axios请求方法
+    /**
+     data: data,
+     method: "post",
+     url: '/auth/loginIn'**/
     axioseRquest(opt) {
         let instance = this.createInstance();
         this.httpInterceptor(instance);
