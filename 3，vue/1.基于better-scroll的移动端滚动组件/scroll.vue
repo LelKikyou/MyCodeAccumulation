@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div ref="wrapper" class="scroll">
     <slot></slot>
   </div>
@@ -59,6 +59,34 @@
       },
       refresh() {
         this.scroll && this.scroll.refresh();
+      },
+      //作用：滚动到指定的位置
+      /**scrollTo(x, y, time, easing)
+       {Number} x 横轴坐标（单位 px）
+       {Number} y 纵轴坐标（单位 px）
+       {Number} time 滚动动画执行的时长（单位 ms）,默认值为0，直接跳过去，不滚动过去
+       {Object} easing 缓动函数，一般不建议修改，如果想修改，参考源码中的 ease.js 里的写法
+       **/
+      scrollTo() {
+        /**相当于
+           scrollTo(x,y,time){
+             this.scroll && this.scroll.scrollTo(x,y,time)
+           }
+         在父组件里面ref="xx",获取scroll vue实例，然后就可以调用scrollTo方法了
+         **/
+        this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
+      },
+      //作用：滚动到指定的目标元素。
+      //用法与上面一样
+      /**scrollToElement(el, time, offsetX, offsetY, easing)
+       {DOM | String} el 滚动到的目标元素, 如果是字符串，则内部会尝试调用 querySelector 转换成 DOM 对象。
+       {Number} time 滚动动画执行的时长（单位 ms），默认值为0，直接跳过去，不滚动过去
+       {Number | Boolean} offsetX 相对于目标元素的横轴偏移量，如果设置为 true，则滚到目标元素的中心位置
+       {Number | Boolean} offsetY 相对于目标元素的纵轴偏移量，如果设置为 true，则滚到目标元素的中心位置
+       {Object} easing 缓动函数，一般不建议修改，如果想修改，参考源码中的 ease.js 里的写法
+       **/
+      scrollToElement(){
+        this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
     },
     mounted() {
