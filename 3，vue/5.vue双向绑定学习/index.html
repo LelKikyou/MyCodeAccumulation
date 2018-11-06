@@ -2,92 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Title</title>
 </head>
 <body>
 <div id="app">
-    <input type="text" class="model" v-model="modelEvent">
-    <button class="btn" v-click="btnEvent">点击事件</button>
-    <h3 v-bind="number"></h3>
+    <input type="text" v-model="number">
+    <button v-click="add">add</button>
+    <button v-click="sub">sub</button>
+    <h1 v-text="number"></h1>
+    <input type="text" v-model="number1">
+    <button v-click="add1">add</button>
+    <button v-click="sub1">sub</button>
+    <h1 v-text="number1"></h1>
 </div>
 </body>
 <script>
-    class MyVue {
-        constructor(opts) {
-            this._init(opts)
-        }
-
-        _init(opts) {
-            this.$opts = opts;
-            this.$el = document.querySelector(opts.el);
-            this.$data = opts.data;
-            this.$methods = opts.methods;
-            this._binding = {};   //_binding保存着model与view的映射关系，也就是我们前面定义的Watcher的实例。当model改变时，我们会触发其中的指令类更新，保证view也能实时更新
+    class myVue {
+        constructor(opt) {
+            this.$el = document.querySelector(opt.el);
+            this.$data = opt.data;
+            this.$methods = opt.methods;
+            this._binding = {};
             this._obverse(this.$data);
+            this._complie(this.$el);
         }
 
         _obverse(obj) {
-            let value;
-            for (key in obj) {//遍历obj对象
-                if (obj.hasOwnProperty(key)) {
-                    this._binding[key] = {    // 按照前面的数据，_binding = {number: _directives: []}
-                        _directives: []
-                    };
-
-                    value = obj[key];
-                    if (typeof value === 'object') {//如果值还是对象，则遍历处理
-                        this._obverse(value);
-                    }
-
-                    let binding = _this._binding[key];
-
-                    Object.defineProperty(this.$data, key, {//关键
-                        enumerable: true,
-                        configurable: true,
-                        get: function () {
-                            console.log(`获取${value}`);
-                            return value;
-                        },
-                        set: function (newVal) {
-                            console.log(`更新${newVal}`);
-                            if (value !== newVal) {
-                                value = newVal;
-                                binding._directives.forEach(function (item) {  // 当number改变时，触发_binding[number]._directives 中的绑定的Watcher类的更新
-                                    item.update();
-                                })
-                            }
+            Object.keys(obj).forEach(key => {
+                this._binding[key] = {
+                    _directives: []
+                };
+                let value = obj[key];
+                let _this = this;
+                Object.defineProperty(this.$data, key, {
+                    enumerable: true,
+                    configurable: true,
+                    get() {
+                        return value
+                    },
+                    set(newValue) {
+                        if (newValue !== value) {
+                            value = newValue;
+                            _this._binding[key]._directives.forEach(item => {
+                                item.upDate();
+                            })
                         }
-                    })
+                    }
+                })
+            })
+        }
+
+        _complie(node) {
+            let nodes = node.children;
+            for (let i = 0; i < nodes.length; i++) {
+                let nodeItem = nodes[i];
+
+                //v-text数据绑定的实现
+                if (nodeItem.hasAttribute("v-text")) {
+                    let attrValue = nodeItem.getAttribute("v-text");
+                    this._binding[attrValue]._directives.push(new Watcher(nodeItem, this, attrValue, "innerText"))
+                }
+                //v-click实现
+                if (nodeItem.hasAttribute("v-click")) {
+                    let attrValue = nodeItem.getAttribute("v-click");
+                    nodeItem.onclick = (() => {
+                        return this.$methods[attrValue].bind(this.$data)
+                    })()
+                }
+                //v-model实现
+                if (nodeItem.hasAttribute("v-model") && (nodeItem.tagName === 'INPUT' || nodeItem.tagName === 'TEXTAREA')) {
+                    let attrValue = nodeItem.getAttribute("v-model");
+                    nodeItem.oninput = (() => {
+                        this._binding[attrValue]._directives.push(new Watcher(nodeItem, this, attrValue, "value"));
+                        return () => {
+                            this.$data[attrValue] = nodeItem.value;
+                        }
+                    })()
                 }
             }
         }
     }
 
+    //观测者Watcher
     class Watcher {
-        constructor(name, el, vm, exp, attr) {
-            this.name = name;         //指令名称，例如文本xxx节点，该值设为"text"
+        constructor(el, vm, exp, attr) {
             this.el = el;             //指令对应的DOM元素
             this.vm = vm;             //指令所属myVue实例
             this.exp = exp;           //指令对应的值，本例如"number"
             this.attr = attr;         //绑定的属性值，本例为"innerHTML"
-
-            this.update();
+            this.upDate();
         }
 
-        update() {
-            this.el[this.attr] = this.vm.$data[this.exp]; //比如 H3.innerHTML = this.data.number; 当number改变时，会触发这个update函数，保证对应的DOM内容进行了更新。
+        upDate() {
+            this.el[this.attr] = this.vm.$data[this.exp];
         }
     }
 
-
-    let vue = new MyVue({
+    new myVue({
         el: "#app",
         data: {
-            number: 10
+            number: 12,
+            number1: 20
         },
-        methods: {}
-    });
+        methods: {
+            add() {
+                this.number++
+            },
+            sub() {
+                this.number--
+            },
+            add1() {
+                this.number1++
+            },
+            sub1() {
+                this.number1--
+            }
+        }
+    })
 </script>
 </html>
