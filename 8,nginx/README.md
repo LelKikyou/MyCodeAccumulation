@@ -43,3 +43,19 @@ deny ：禁止ip，和上面一样。
 ~~~
 ![顺序](./img/2.png) ![访问权限](./img/3.png) 
 ### 权限详解
+~~~
+禁止192.168.1.1:8080/img，访问时候
+    location = /img {
+            deny all;
+        }
+禁止192.168.1.1:8080/admin,访问的时候
+    location = /admin {
+        deny all;
+    }  
+用正则控制
+  禁止以.php结尾的文件访问的时候
+  location ~ \.php$ {
+      deny all;
+  }
+可以用正则完成任意拦截    
+~~~
