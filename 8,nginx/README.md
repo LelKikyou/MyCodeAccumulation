@@ -139,7 +139,7 @@ gzip_min_length 1k;
 gzip_buffers 4 16k;
 #gzip_http_version 1.0;
 gzip_comp_level 2;
-gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;#如果有文件没有压缩就添加上，到network里面能看到返回的数据类型
 gzip_vary off;
 gzip_disable "MSIE [1-6]\.";
 
