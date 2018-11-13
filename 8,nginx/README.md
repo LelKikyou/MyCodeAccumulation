@@ -89,3 +89,19 @@ server{
         }
 }
 ~~~
+### Nginx适配PC或移动设备
+- $http_user_agent的使用：
+Nginx通过内置变量$http_user_agent，可以获取到请求客户端的userAgent，就可以用户目前处于移动端还是PC端，进而展示不同的页面给用户
+~~~
+server{
+     listen 80;
+     server_name nginx2.com;
+     location / {
+      root /usr/share/nginx/pc;
+      if ($http_user_agent ~* '(Android|webOS|iPhone|iPod|BlackBerry)') {
+         root /usr/share/nginx/mobile;
+      }
+      index index.html;
+     }
+}
+~~~
