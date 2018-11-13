@@ -105,3 +105,31 @@ server{
      }
 }
 ~~~
+### Nginx的Gzip压缩配置
+##### gzip的配置项
+
+###### Nginx提供了专门的gzip模块，并且模块中的指令非常丰富。
+- gzip : 该指令用于开启或 关闭gzip模块。
+- gzip_buffers : 设置系统获取几个单位的缓存用于存储gzip的压缩结果数据流。
+- gzip_comp_level : gzip压缩比，压缩级别是1-9，1的压缩级别最低，9的压缩级别最高。压缩级别越高压缩率越大，压缩时间越长。
+- gzip_disable : 可以通过该指令对一些特定的User-Agent不使用压缩功能。
+- gzip_min_length:设置允许压缩的页面最小字节数，页面字节数从相应消息头的Content-length中进行获取。
+- gzip_http_version：识别HTTP协议版本，其值可以是1.1.或1.0.
+- gzip_proxied : 用于设置启用或禁用从代理服务器上收到相应内容gzip压缩。
+- gzip_vary : 用于在响应消息头中添加Vary：Accept-Encoding,使代理服务器根据请求头中的Accept-Encoding识别是否启用gzip压缩
+~~~
+http {
+   .....
+    gzip on;
+    gzip_types text/plain application/javascript text/css;
+    server {
+        listen 80;
+        server_name my.huangqiyong.xyz;
+        location / {
+                root html/dist;
+                try_files $uri $uri/ /index.html;
+        }
+    }
+   .....
+}
+~~~
