@@ -59,3 +59,22 @@ deny ：禁止ip，和上面一样。
   }
 可以用正则完成任意拦截    
 ~~~
+###利用域名划分虚拟主机来发布不同的网页
+~~~
+    server {
+      listen 80;
+        server_name nginx2.com;
+        location / {
+                root /usr/share/nginx/html/html2;
+                index index.html index.htm;
+        }
+    }
+    server {
+      listen 80;
+        server_name nginx1.com;
+        location / {
+                root /usr/share/nginx/html/html1;
+                index index.html index.htm;
+        }
+    }
+~~~
