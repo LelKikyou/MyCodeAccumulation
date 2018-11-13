@@ -120,8 +120,8 @@ server{
 ~~~
 http {
    .....
-    gzip on;
-    gzip_types text/plain application/javascript text/css;
+    gzip on;#开启gzip压缩
+    gzip_types text/plain application/javascript text/css;#要压缩文件的类型选择
     server {
         listen 80;
         server_name my.huangqiyong.xyz;
