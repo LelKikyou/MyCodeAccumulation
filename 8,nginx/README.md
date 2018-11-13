@@ -78,3 +78,14 @@ deny ：禁止ip，和上面一样。
         }
     }
 ~~~
+### 反向代理
+通过nginx.com,进入http://nginx11.com;
+~~~
+server{
+        listen 80;
+        server_name nginx.com;
+        location / {
+               proxy_pass http://nginx11.com;
+        }
+}
+~~~
