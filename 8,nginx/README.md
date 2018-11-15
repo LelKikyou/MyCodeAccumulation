@@ -59,3 +59,105 @@ deny ：禁止ip，和上面一样。
   }
 可以用正则完成任意拦截    
 ~~~
+### 利用域名划分虚拟主机来发布不同的网页
+~~~
+    server {
+      listen 80;
+        server_name nginx2.com;
+        location / {
+                root /usr/share/nginx/html/html2;
+                index index.html index.htm;
+        }
+    }
+    server {
+      listen 80;
+        server_name nginx1.com;
+        location / {
+                root /usr/share/nginx/html/html1;
+                index index.html index.htm;
+        }
+    }
+~~~
+### 反向代理
+- 通过nginx.com,进入http://nginx11.com;
+~~~
+server{
+        listen 80;
+        server_name nginx.com;
+        location / {
+               proxy_pass http://nginx11.com;
+        }
+}
+~~~
+### Nginx适配PC或移动设备
+- $http_user_agent的使用：
+Nginx通过内置变量$http_user_agent，可以获取到请求客户端的userAgent，就可以用户目前处于移动端还是PC端，进而展示不同的页面给用户
+~~~
+server{
+     listen 80;
+     server_name nginx2.com;
+     location / {
+      root /usr/share/nginx/pc;
+      if ($http_user_agent ~* '(Android|webOS|iPhone|iPod|BlackBerry)') {
+         root /usr/share/nginx/mobile;
+      }
+      index index.html;
+     }
+}
+~~~
+### Nginx的Gzip压缩配置
+##### gzip的配置项
+
+###### Nginx提供了专门的gzip模块，并且模块中的指令非常丰富。
+- gzip : 该指令用于开启或 关闭gzip模块。
+- gzip_buffers : 设置系统获取几个单位的缓存用于存储gzip的压缩结果数据流。
+- gzip_comp_level : gzip压缩比，压缩级别是1-9，1的压缩级别最低，9的压缩级别最高。压缩级别越高压缩率越大，压缩时间越长。
+- gzip_disable : 可以通过该指令对一些特定的User-Agent不使用压缩功能。
+- gzip_min_length:设置允许压缩的页面最小字节数，页面字节数从相应消息头的Content-length中进行获取。
+- gzip_http_version：识别HTTP协议版本，其值可以是1.1.或1.0.
+- gzip_proxied : 用于设置启用或禁用从代理服务器上收到相应内容gzip压缩。
+- gzip_vary : 用于在响应消息头中添加Vary：Accept-Encoding,使代理服务器根据请求头中的Accept-Encoding识别是否启用gzip压缩
+~~~
+http {
+   .....
+    gzip on;#开启gzip压缩
+    gzip_types text/plain application/javascript text/css;#要压缩文件的类型选择
+    server {
+        listen 80;
+        server_name my.huangqiyong.xyz;
+        location / {
+                root html/dist;
+                try_files $uri $uri/ /index.html;
+        }
+    }
+   .....
+}
+~~~
+~~~
+gzip on;
+gzip_min_length 1k;
+gzip_buffers 4 16k;
+#gzip_http_version 1.0;
+gzip_comp_level 2;
+gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;#如果有文件没有压缩就添加上，到network里面能看到返回的数据类型
+gzip_vary off;
+gzip_disable "MSIE [1-6]\.";
+
+1、解释一下
+
+第1行：开启Gzip
+
+第2行：不压缩临界值，大于1K的才压缩，一般不用改
+
+第3行：buffer，就是，嗯，算了不解释了，不用改
+
+第4行：用了反向代理的话，末端通信是HTTP/1.0，有需求的应该也不用看我这科普文了；有这句的话注释了就行了，默认是HTTP/1.1
+
+第5行：压缩级别，1-10，数字越大压缩的越好，时间也越长，看心情随便改吧
+
+第6行：进行压缩的文件类型，缺啥补啥就行了，JavaScript有两种写法，最好都写上吧，总有人抱怨js文件没有压缩，其实多写一种格式就行了
+
+第7行：跟Squid等缓存服务有关，on的话会在Header里增加"Vary: Accept-Encoding"，我不需要这玩意，自己对照情况看着办吧
+
+第8行：IE6对Gzip不怎么友好，不给它Gzip了
+~~~
