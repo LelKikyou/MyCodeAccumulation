@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+<script>
+    /* 去掉一组整型数组中重复的值
+       [1,22,13,24,11,11,22,14,1,2]*/
+    let arr = [1, 22, 13, 24, 11, 11, 22, 14, 1, 2];
+    let a = function (arr) {
+        let nArr = [];
+        let hash = {};
+        arr.forEach(i => {
+            if (!hash[i]) {
+                hash[i] = true;
+                nArr.push(i)
+            }
+        });
+        return nArr
+    };
+    console.log(a(arr))
+</script>
+</html>
