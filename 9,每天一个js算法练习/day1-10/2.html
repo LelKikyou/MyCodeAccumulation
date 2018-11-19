@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //2018.11.19
+    /*  统计一个字符串中出现最多的字母
+        给出一个字符串，统计出现次数最多的字母。如：“wqeqwhqqixswiqhdxsq”，其中出现最多的是q */
+    function maxStr(str) {
+        let strObj = {};
+        let max = "";
+        for (let i = 0; i < str.length; i++) {
+            !strObj[str[i]] ? strObj[str[i]] = 1 : strObj[str[i]]++
+        }
+        for (let a in strObj) {
+            let num = strObj[a];
+            if (num > (strObj[max] || 0)) {
+                max = a
+            }
+        }
+        return max;
+    }
+
+    console.log(maxStr("wqeqwhqqixswiqhdxsq"))
+</script>
+</html>
