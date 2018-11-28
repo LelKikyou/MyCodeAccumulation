@@ -1,8 +1,8 @@
-/**http请求类**/
+﻿/**http请求类**/
 //没经过本人同意不许修改
 import axios from 'axios'
-// import {URL, TOKEN} from '@/api/URL'
-import {URL} from '@/api/URL'
+// import {URL, TOKEN} from '@/api/config'
+import {URL} from '@/api/config'
 
 // import Cookies from "js-cookie"
 
@@ -11,7 +11,7 @@ class HttpAsynAxios {
         //请求参数配置
         this.opt = {
             method: "get",
-            timeout: 0
+            timeout: 1000
         };
         // 请求队列
         this.queue = [];
