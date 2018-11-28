@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*    2.比较两个数组，然后返回一个新数组，该数组的元素为两个给定数组中所有独有的数组元素。换言之，返回两个数组的差异。
+        如：[1, 2, 3, 5], [1, 2, 3, 4, 5] 应该返回 [4]。
+    　　[1, "calf", 3, "piglet"], [1, "calf", 3, 4] 应该返回 ["piglet", 4]。*/
+    let [a, b] = [[1, 2], [2, 4, 5]];
+    (function (a, b) {
+        let arr = [];
+        let newArr1 = a.filter(function (i) {
+            let lock = true;
+            b.forEach(n => {
+                if (i === n) lock = false;
+            });
+            return lock
+        })
+        let newArr2 = b.filter(function (i) {
+            let lock = true;
+            a.forEach(n => {
+                if (i === n) lock = false;
+            });
+            return lock
+        })
+        console.log(newArr1.concat(newArr2));
+        return newArr1.concat(newArr2)
+    })(a, b)
+</script>
+</html>
