@@ -8,11 +8,6 @@ import {URL} from '@/api/config'
 
 class HttpAsynAxios {
     constructor() {
-        //请求参数配置
-        this.opt = {
-            method: "get",
-            timeout: 1000
-        };
         // 请求队列
         this.queue = [];
         // axios内置的中断ajax的方法
@@ -70,9 +65,9 @@ class HttpAsynAxios {
             error => {
                 if (error.response) {
                     // 响应错误之后的操作
-                    switch (error.response.status) {
-                        case 401:
-                    }
+                    // switch (error.response.status) {
+                    //     case 401:
+                    // }
                 }
                 return Promise.reject(error.response)   // 返回接口返回的错误信息
             });
@@ -82,19 +77,24 @@ class HttpAsynAxios {
     createInstance() {
         return axios.create({
             baseURL: URL,
-            timeout: this.opt.timeout
+            // timeout:2000 //请求超时时间设置 default is `0` (no timeout)
         })
     }
 
     //axios请求方法
     /**
-     {data: data,
+     {data: data,     //get方法的时候为params：data
      method: "post",
-     url: '/auth/loginIn'}**/
+     url: '/auth/loginIn'，
+     headers:{
+            'Content-Type':'application/json',
+     },
+     responseType: 'blob',
+     }
+     **/
     axioseRquest(opt) {
         let instance = this.createInstance();
         this.httpInterceptor(instance);
-        if (!opt.method) opt.method = this.opt.method;
         return instance(opt)
     }
 
