@@ -71,7 +71,7 @@ Date.prototype.Format = function (fmt) {
      */
     T.UUID = function (len) {
         var timestamp = new Date().getTime() || 0, chars = 'abcdefghijklmnopqrstuvwxyz', uuid = '';
-        this.timestamp = this.timestamp == timestamp ? timestamp + 1 : timestamp;
+        this.timestamp = this.timestamp === timestamp ? timestamp + 1 : timestamp;
         timestamp = '' + this.timestamp;
         len = len || 20;
         for (var i = 0; i < len; i++) {
@@ -555,7 +555,7 @@ Date.prototype.Format = function (fmt) {
         }
         if (pagin.total <= 2 * pagin.num + 4) {//小于2*pagin.num页
             for (var index = 1; index <= pagin.total; index++) {
-                if (index == pagin.index) createPageLabel('b', 'dis', index, index);
+                if (index === pagin.index) createPageLabel('b', 'dis', index, index);
                 else createPageLabel('a', '', index, index, pagin.callback);
             }
         } else {//大于2*pagin.num页
@@ -573,7 +573,7 @@ Date.prototype.Format = function (fmt) {
             if (center) {
                 if (index > 1) createPageLabel('a', 'ellipsis', index, '...', pagin.callback);
                 for (index; index <= total; index++) {
-                    if (index == pagin.index) createPageLabel('b', 'dis', index, index);
+                    if (index === pagin.index) createPageLabel('b', 'dis', index, index);
                     else createPageLabel('a', '', index, index, pagin.callback);
                 }
                 ;
@@ -585,7 +585,7 @@ Date.prototype.Format = function (fmt) {
                 //console.log(index,total);
                 if (_right && total > 2 * pagin.num) createPageLabel('a', 'ellipsis', index, '...', pagin.callback);
                 for (index; index <= total; index++) {
-                    if (index == pagin.index) createPageLabel('b', 'dis', index, index);
+                    if (index === pagin.index) createPageLabel('b', 'dis', index, index);
                     else createPageLabel('a', '', index, index, pagin.callback);
                 }
                 /* if(_left)createPageLabel('a','ellipsis',index,'...',pagin.callback);*/
