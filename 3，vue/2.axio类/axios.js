@@ -15,15 +15,16 @@ class HttpAsynAxios {
     }
 
     // 同一请求标识，用来判断当前请求，有没有在请求队列中。这里我采用url+method拼接的方式
+    //注意：当request.use的时候config为url，但当response.use的时候，config的url会把baseURL和url拼接起来，所以要区别。
     urlSign = (config) => {
         return `${config.url}_${config.method}`
     };
 
     // 中断重复的请求，并从队列中移除
-    removeQueue = (config) => {
+    removeQueue = (url11Sign) => {
         for (let i = 0, size = this.queue.length; i < size; i++) {
-            const task = this.queue[i];
-            if (task.urlsign === this.urlSign(config)) {
+            const task = this.queue[i] || {}; //当task为undefined时候不报错。
+            if (task.urlsign === url11Sign) {
                 task.cancel();
                 this.queue.splice(i, 1);
             }
@@ -36,7 +37,7 @@ class HttpAsynAxios {
         // let token = Cookies.get(TOKEN);
         instance.interceptors.request.use(
             config => {
-                this.removeQueue(config); // 中断之前的同名请求
+                this.removeQueue(this.urlSign(config)); // 中断之前的同名请求
                 // 添加cancelToken
                 config.cancelToken = new this.cancelToken((c) => {
                     this.queue.push({urlsign: this.urlSign(config), cancel: c});
@@ -47,13 +48,14 @@ class HttpAsynAxios {
                 return config;
             },
             err => {
+                console.log(err)
                 return Promise.reject(err);
             });
         // http response 拦截器
         instance.interceptors.response.use(
             response => {
                 // 在请求完成后，自动移出队列
-                this.removeQueue(response.config);
+                this.removeQueue(`${response.config.url.split(URL)[1]}_${response.config.method}`);
                 //如果返回401则跳转到登录页
                 // if(response.status===401){
                 //     //清楚cookie
@@ -64,6 +66,8 @@ class HttpAsynAxios {
             },
             error => {
                 if (error.response) {
+                    // 在请求完成后，自动移出队列
+                    this.removeQueue(`${error.response.config.url.split(URL)[1]}_${error.response.config.method}`);
                     // 响应错误之后的操作
                     // switch (error.response.status) {
                     //     case 401:
