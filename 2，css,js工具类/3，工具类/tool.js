@@ -334,11 +334,12 @@
         function deepCopy(source) {
             var target = Array.isArray(source) ? [] : {};
             for (var k in source) {
-                if (source.hasOwnProperty(k)) {   // 意思就是__proto__上面的属性,我不拷贝,如果想拷贝__proto__上的属性 就去掉
-                    if (typeof source[k] === 'object') {
-                        target[k] = deepCopy(source[k])
+                if (source.hasOwnProperty(k)) {   // __proto__上面的属性不拷贝
+                    var sourceVal = source[k];
+                    if (typeof sourceVal === 'object' && sourceVal !== null) {  //null为object类型，所以判断下
+                        target[k] = deepCopy(sourceVal)
                     } else {
-                        target[k] = source[k]
+                        target[k] = sourceVal
                     }
                 }
             }
