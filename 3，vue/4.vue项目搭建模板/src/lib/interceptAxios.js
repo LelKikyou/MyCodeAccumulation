@@ -1,6 +1,6 @@
-﻿/**
+/**
  * http请求类
- * 基础axios
+ * 带拦截功能，类似jq abort
  * **/
 //没经过本人同意不许修改
 import axios from 'axios'
@@ -11,8 +11,28 @@ import {URL} from '@/api/config'
 
 class HttpAsynAxios {
     constructor() {
-
+        // 请求队列
+        this.queue = [];
+        // axios内置的中断ajax的方法
+        this.cancelToken = axios.CancelToken;
     }
+
+    // 同一请求标识，用来判断当前请求，有没有在请求队列中。这里我采用url+method拼接的方式
+    //注意：当request.use的时候config为url，但当response.use的时候，config的url会把baseURL和url拼接起来，所以要区别。
+    urlSign = (config) => {
+        return `${config.url}_${config.method}`
+    };
+
+    // 中断重复的请求，并从队列中移除
+    removeQueue = (url11Sign) => {
+        for (let i = 0, size = this.queue.length; i < size; i++) {
+            const task = this.queue[i] || {}; //当task为undefined时候不报错。
+            if (task.urlsign === url11Sign) {
+                task.cancel();
+                this.queue.splice(i, 1);
+            }
+        }
+    };
 
     //请求拦截器
     httpInterceptor(instance) {
@@ -20,6 +40,11 @@ class HttpAsynAxios {
         // let token = Cookies.get(TOKEN);
         instance.interceptors.request.use(
             config => {
+                this.removeQueue(this.urlSign(config)); // 中断之前的同名请求
+                // 添加cancelToken
+                config.cancelToken = new this.cancelToken((c) => {
+                    this.queue.push({urlsign: this.urlSign(config), cancel: c});
+                });
                 // if (!!token) {  // 每次发送请求之前判断是否存在token，如果存在，则统一在http请求的header都加上token，不用每次请求都手动添加
                 //     config.headers.Authorization =token;
                 // }
@@ -32,6 +57,8 @@ class HttpAsynAxios {
         // http response 拦截器
         instance.interceptors.response.use(
             response => {
+                // 在请求完成后，自动移出队列
+                this.removeQueue(`${response.config.url.split(URL)[1]}_${response.config.method}`);
                 //如果返回401则跳转到登录页
                 // if(response.status===401){
                 //     //清楚cookie
@@ -42,6 +69,8 @@ class HttpAsynAxios {
             },
             error => {
                 if (error.response) {
+                    // 在请求完成后，自动移出队列
+                    this.removeQueue(`${error.response.config.url.split(URL)[1]}_${error.response.config.method}`);
                     // 响应错误之后的操作
                     // switch (error.response.status) {
                     //     case 401:
