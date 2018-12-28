@@ -1,4 +1,4 @@
-/**hqy工具类
+﻿/**hqy工具类
  * **/
 
 !(function (window, document) {
@@ -336,7 +336,8 @@
             for (var k in source) {
                 if (source.hasOwnProperty(k)) {   // __proto__上面的属性不拷贝
                     var sourceVal = source[k];
-                    if (typeof sourceVal === 'object' && sourceVal !== null) {  //null为object类型，所以判断下
+                    var typeSource = Object.prototype.toString.call(sourceVal).slice(8, -1);//判断类型,因为type of 只能判断基础数据类型，null也是obj
+                    if (typeSource === 'Object' || typeSource === 'Array') {
                         target[k] = deepCopy(sourceVal)
                     } else {
                         target[k] = sourceVal
@@ -349,7 +350,7 @@
         //这个方法大多数时候都适用，但是不会拷贝原型上的方法，也不会拷贝有函数的属性，比如{a:function(){console.log(123)}},属性a不会拷贝
         //坑：1、如果obj里面有时间对象，则JSON.stringify后再JSON.parse的结果，时间将只是字符串的形式。而不是时间对象；
         //    2、如果obj里有RegExp、Error对象，则序列化的结果将只得到空对象；{date: new RegExp('\\w+')}  => {date:{}}
-        //    3、如果obj里有函数，undefined，则序列化的结果会把函数或 undefined丢失；{a:undefined}   => {}
+        //    3、如果obj里有函数，undefined，则序列化的结果会把函数或 undefined丢失；{a:undefined}   => {},{a:null}=>{a:null}，null不会丢失
         //    4、如果obj里有NaN、Infinity和-Infinity，则序列化的结果会变成null
 
         function copy(obj) {
