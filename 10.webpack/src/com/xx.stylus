@@ -1,0 +1,26 @@
+.img
+  width 200px
+  height 100px
+  background url("../img/bd.png") no-repeat
+  background-size contain
+  position: absolute;
+  top 100px
+  left 200px
+  animation-name: fucks;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+
+#title
+  color red
+  height 200px
+
+@keyframes fucks {
+  from {
+    transition: 0.5s ease-in
+  }
+  to {
+    transform: rotate(360deg)
+  }
+}
+
+
