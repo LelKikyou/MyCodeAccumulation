@@ -75,7 +75,7 @@ module.exports = {
         /*        new PurgecssPlugin({
                     paths: glob.sync(path.join(__dirname, 'src/!*.vue')),
                 }),*/
-        new webpack.ProvidePlugin({
+        new webpack.ProvidePlugin({//可以直接在js文件里面用了，不需要引入了
             $: "jquery"
         }),
         new webpack.BannerPlugin('hqy版权所有'),//js.css文件版权说明，
