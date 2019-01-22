@@ -8,7 +8,8 @@
 <script>
     import zz from "./com/data"
     import Xx from "./com/xx.vue"
-
+    import 'vue2-toast/lib/toast.css';
+    import "./za.css"
     export default {
         name: "app",
         data() {
@@ -18,6 +19,7 @@
         },
         methods: {
             xx() {
+                this.$loading('loading...');
                 console.log(zz)
             }
         },

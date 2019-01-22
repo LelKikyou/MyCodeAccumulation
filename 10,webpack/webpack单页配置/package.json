@@ -37,7 +37,8 @@
   },
   "dependencies": {
     "jquery": "^3.3.1",
-    "vue": "^2.5.21"
+    "vue": "^2.5.21",
+    "vue2-toast": "^2.0.2"
   },
   "browserslist": [
     "> 1%",

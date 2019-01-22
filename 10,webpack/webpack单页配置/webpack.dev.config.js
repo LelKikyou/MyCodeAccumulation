@@ -3,7 +3,7 @@ const common = require('./webpack.config.js');
 module.exports = merge(common, {
     output: {
         path: "/", //热加载模式不能指定输出的文件地址，它输出的文件会缓存放在这里，你是看不到的，这里必须这样配置
-        filename: "index.js"
+        filename: "[name].js"
     },
     devServer: {//webpack-server的配置
         host: '0.0.0.0',//服务显示的地址localhsot  127.0.0.1  本机的ip地址都可以

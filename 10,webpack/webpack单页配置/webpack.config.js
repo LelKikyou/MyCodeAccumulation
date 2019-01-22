@@ -3,24 +3,23 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');//vue模板必须的
 const HtmlWebpackPlugin = require("html-webpack-plugin");//生成index模板
 const extractTextPlugin = require("extract-text-webpack-plugin");//分离css用
 /*const glob = require('glob');
-const PurgecssPlugin = require('purgecss-webpack-plugin');//现在是这个 好像对vue没效果*/
+const PurgecssPlugin = require('purgecss-webpack-plugin');//现在是这个 好像对vue没效果，移除不需要的css*/
 // const PurgecssPlugin = require('purifycss-webpack');//被废弃了
 const webpack = require('webpack');//按需引入插件
-const  copyWebpackPlugin= require("copy-webpack-plugin");//打包不需要的静态文件用，如readme.md
+const copyWebpackPlugin = require("copy-webpack-plugin");//打包不需要的静态文件用，如readme.md
 module.exports = {
     entry: { //抽离插件入口配置, index，就是文件名，可自定义
-        index: path.resolve(__dirname, './src/main.js'),
-        jquery: 'jquery',
-        vue: 'vue'
+        app: path.resolve(__dirname, './src/main.js'),
+        // jquery: 'jquery',
+        // vue: 'vue',
+        // xx:path.resolve(__dirname, './src/xx.js')
     },
     module: {
         rules: [{
             test: /\.vue$/,
-            exclude: /node_modules/,
             loader: 'vue-loader'
         }, {
             test: /\.css$/,
-            exclude: /node_modules/,
             use: extractTextPlugin.extract({
                 fallback: "vue-style-loader",
                 use: [
@@ -30,7 +29,6 @@ module.exports = {
             })
         }, {
             test: /\.stylus$/,
-            exclude: /node_modules/,
             use: extractTextPlugin.extract({
                 fallback: "vue-style-loader",
                 use: [
@@ -45,7 +43,6 @@ module.exports = {
             loader: 'babel-loader'
         }, {
             test: /\.(png|jpg|gif)$/,
-            exclude: /node_modules/,
             loader: 'url-loader',
             options: {
                 outputPath: "images/",
@@ -53,6 +50,11 @@ module.exports = {
                 publicPath: "../images"
             }
         }]
+    },
+    resolve: {
+        alias: { //链接  用@代替
+            '@': path.resolve(__dirname, 'src')
+        }
     },
     plugins: [
         new HtmlWebpackPlugin({//要使用就必须得new出来
@@ -65,7 +67,7 @@ module.exports = {
                 // collapseWhitespace: true //去掉空格
             },
             hash: true,//是否产生hash值
-            // chunks: ["index"],//加载那些js文件，这个js文件就是输出的js文件名
+            // chunks: ["index","jquery"],//加载那些js文件，这个js文件就是输出的js文件名,上面entry的属性名来定，不写默认都加载
             favicon: './public/f1.ico' //指定favicon
         }),
         new VueLoaderPlugin(),
@@ -78,18 +80,24 @@ module.exports = {
         }),
         new webpack.BannerPlugin('hqy版权所有'),//js.css文件版权说明，
         new copyWebpackPlugin([{
-            from:__dirname+'/readme.md',
-            to:'./public'
+            from: __dirname + '/readme.md',
+            to: './public'
         }])
     ],
     optimization: {
         //抽取公共的代码和插件
         splitChunks: {
             cacheGroups: {
-                commons: {
-                    name: "commons",
+                commons: {//公共模块打包到一个app.js文件下
+                    name: "app",
                     chunks: "initial",
                     minChunks: 2
+                },
+                vendor: {//node_modules下面包打包到vendor下面
+                    name: "vendor",
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: "all",
+                    priority: 10
                 }
             }
         }
