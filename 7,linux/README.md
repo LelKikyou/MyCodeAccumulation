@@ -61,6 +61,6 @@ shutdown -h 12:00：12点关机 或 shutdown -h +10：10小时后
   3、把/home目录下面的abc文件夹和123.txt压缩成为abc123.zip
   zip -r abc123.zip abc 123.txt
   4、把/home目录下面的wwwroot.zip直接解压到/home目录里面
-  unzip wwwroot.zip
+  unzip wwwroot.zip  
   5、把/home目录下面的abc12.zip、abc23.zip、abc34.zip同时解压到/home目录里面
   unzip abc\*.zip
