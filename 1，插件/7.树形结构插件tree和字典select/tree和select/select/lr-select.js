@@ -7,7 +7,7 @@
             dfop.data = [];
             $ul.find('li').each(function () {
                 var $li = $(this);
-                var point = { id: $li.attr('data-value'), text: $li.html() }
+                var point = {id: $li.attr('data-value'), text: $li.html()}
                 dfop.data.push(point);
             });
             $ul.remove();
@@ -27,7 +27,9 @@
                 var $search = $('<div class="lr-select-option-search"><input type="text" id="sdcmZD" placeholder="搜索关键字"><span class="input-query" title="查询"><i class="iconfont icon-sousuosearch82"></i></span></div>');
                 $option.append($search);
                 $option.css('padding-bottom', '25px');
-                $search.on('click', function () { return false; });
+                $search.on('click', function () {
+                    return false;
+                });
                 $search.find('input').on("keypress", function (e) {
                     if (event.keyCode == "13") {
                         var $this = $(this);
@@ -36,7 +38,7 @@
                         var dfop = $select[0]._lrselect.dfop;
                         if (dfop.type == "tree" || dfop.type == "treemultiple") {
                             var $optionContent = $this.parent().prev();
-                            $optionContent.lrtreeSet('search', { keyword: keyword });
+                            $optionContent.lrtreeSet('search', {keyword: keyword});
                         }
                         else if (dfop.type == "default" || dfop.type == "multiple") {
                             for (var i = 0, l = dfop.data.length; i < l; i++) {
@@ -61,7 +63,7 @@
                     var dfop = $select[0]._lrselect.dfop;
                     if (dfop.type == "tree" || dfop.type == "treemultiple") {
                         var $optionContent = $this.parent().prev();
-                        $optionContent.lrtreeSet('search', { keyword: keyword });
+                        $optionContent.lrtreeSet('search', {keyword: keyword});
                     }
                     else if (dfop.type == "default" || dfop.type == "multiple") {
                         for (var i = 0, l = dfop.data.length; i < l; i++) {
@@ -84,7 +86,7 @@
                     if (keyword == "") {
                         if (dfop.type == "tree" || dfop.type == "treemultiple") {
                             var $optionContent = $this.parent().prev();
-                            $optionContent.lrtreeSet('search', { keyword: keyword });
+                            $optionContent.lrtreeSet('search', {keyword: keyword});
                         }
                         else if (dfop.type == "default" || dfop.type == "multiple") {
                             for (var i = 0, l = dfop.data.length; i < l; i++) {
@@ -206,7 +208,8 @@
             //hcy 解决鼠标点右边滚动条，下拉框消失的问题
             if (e.target.className != 'lr-select-placeholder' && e.target.className != 'lr-selectitem-li') {
                 return false;
-            };
+            }
+            ;
             var $this = $(this);
             if ($this.attr('readonly') == 'readonly' || $this.attr('disabled') == 'disabled') {
                 return false;
@@ -272,7 +275,8 @@
 
                 if ($et.hasClass('lr-selectitem-li') || $et.hasClass('lr-select-node-cb')) {
                     var $inputText = $this.find('.lr-select-placeholder');
-                    var $cbobj = $et.find('.lr-select-node-cb');;
+                    var $cbobj = $et.find('.lr-select-node-cb');
+                    ;
                     var _index = $et.attr('data-value');
                     if ($et.hasClass('lr-select-node-cb')) {
                         $cbobj = $et;
@@ -405,13 +409,34 @@
             }
         },
         defaultValue: function ($self) {
-            var dfop = $self[0]._lrselect.dfop;
-            dfop.currtentItem = null;
-            dfop._index = '';
-            var $inputText = $self.find('.lr-select-placeholder');
-            $inputText.css('color', '#999');
-            $inputText.html('==' + dfop.placeholder + '==');
-            $self.trigger("change");
+            var $this=$self;
+            var $et = $self.find(".lr-selectitem-li").eq(0);
+            var dfop=$self[0]._lrselect.dfop;
+            var _index = $et.attr('data-value');
+            var $option = $('#learun_select_option_' + dfop.id);
+            if (dfop._index != _index) {
+                var $inputText = $this.find('.lr-select-placeholder');
+
+                if (_index == '') {
+                    $inputText.css('color', '#999');
+                    $inputText.html('==' + dfop.placeholder + '==');
+                }
+                else {
+                    $inputText.css('color', '#000');
+                    $inputText.html(dfop.data[_index][dfop.text]);
+                }
+
+                $et.addClass('selected');
+                if (dfop._index != undefined && dfop._index != null) {
+                    $option.find('.lr-selectitem-li[data-value="' + dfop._index + '"]').removeClass('selected');
+                }
+                dfop._index = _index;
+
+                $this.trigger("change");
+                if (!!dfop.select) {
+                    dfop.select(dfop.data[_index]);
+                }
+            }
         }
     };
 
@@ -460,7 +485,7 @@
             return $self;
         }
 
-        $self[0]._lrselect = { dfop: dfop };
+        $self[0]._lrselect = {dfop: dfop};
         // 基础信息渲染
         $.lrselect.bindEvent($self);
 
@@ -530,8 +555,8 @@
             dfop.isload = true;
         }
         else if (!!dfop.data) {
-                dfop.isload = true;
-                dfop.backdata = dfop.data;
+            dfop.isload = true;
+            dfop.backdata = dfop.data;
         }
         else {// 最后是html方式获取（只适合数据比较少的情况）
             $.lrselect.htmlToData($self);
@@ -617,7 +642,7 @@
         return value;
     };
 
-    $.fn.lrselectSet = function (value) {        
+    $.fn.lrselectSet = function (value) {
         // 设置数据的值
         var $this = $(this);
         if ($this.length == 0) {
@@ -633,6 +658,7 @@
         if (!dfop) {
             return $this;
         }
+
         function _fn(dfop) {
             if (dfop.isload == false) {
                 setTimeout(function () {
@@ -720,6 +746,7 @@
                 }
             }
         }
+
         _fn(dfop);
         return $this;
     };

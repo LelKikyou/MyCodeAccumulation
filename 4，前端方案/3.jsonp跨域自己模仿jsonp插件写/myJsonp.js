@@ -1,12 +1,12 @@
 var count = 0;
 function noop(){}
 function jsonp(url, opts, fn){
-  if ('function' == typeof opts) {
+  if ('function' === typeof opts) {
     fn = opts;
     opts = {};
   }
   if (!opts) opts = {};
-  var prefix = opts.prefix || '__jp';
+  var prefix = '__jp';
   var id = opts.name || (prefix + (count++));
   var param = opts.param || 'callback';
   var timeout = null != opts.timeout ? opts.timeout : 60000;

@@ -16,7 +16,7 @@ su 例 su huangqiyong;
 - 加-l  查看详细信息
 - 加-a  显示所有文件，包括隐藏文件。隐藏文件前面加了.
 - 加-h  显示文件大小 **可以组合使用  例：ls -d -a**  
-#### 3 cd 切换
+#### 4 cd 切换
 - cd / 切换到根目录  
 - cd - 返回之前的目录
 - cd .. 返回上一级目录  .是当前目录，..上一级目录
@@ -52,3 +52,15 @@ shutdown -h 12:00：12点关机 或 shutdown -h +10：10小时后
  查看yum源里面的版本：yum list | grep nginx  
  如果发现其中没有你要的版本，就自己创建一个yum仓库，例：vim /etc/yum.repos.d/nginx.repo（新建一个nginx仓库），在里面写入nginx网络资源，把以下资源放入，：wq保存退出就行了，退出后yum list | grep nginx，查看yum里面的版本。  
  ![](./img/6.png)
+# 解压，压缩
+- zip解压
+  1、把/home目录下面的mydata目录压缩为mydata.zip
+  zip -r mydata.zip mydata #压缩mydata目录
+  2、把/home目录下面的mydata.zip解压到mydatabak目录里面
+  unzip mydata.zip -d mydatabak
+  3、把/home目录下面的abc文件夹和123.txt压缩成为abc123.zip
+  zip -r abc123.zip abc 123.txt
+  4、把/home目录下面的wwwroot.zip直接解压到/home目录里面
+  unzip wwwroot.zip
+  5、把/home目录下面的abc12.zip、abc23.zip、abc34.zip同时解压到/home目录里面
+  unzip abc\*.zip
