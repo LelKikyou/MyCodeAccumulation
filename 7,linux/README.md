@@ -54,9 +54,8 @@ shutdown -h 12:00：12点关机 或 shutdown -h +10：10小时后
  ![](./img/6.png)
 # 解压，压缩
 - zip解压
-```
   1、把/home目录下面的mydata目录压缩为mydata.zip
-  zip -r mydata.zip mydata #压缩mydata目录
+  zip -r mydata.zip mydata
   2、把/home目录下面的mydata.zip解压到mydatabak目录里面
   unzip mydata.zip -d mydatabak
   3、把/home目录下面的abc文件夹和123.txt压缩成为abc123.zip
@@ -65,4 +64,3 @@ shutdown -h 12:00：12点关机 或 shutdown -h +10：10小时后
   unzip wwwroot.zip
   5、把/home目录下面的abc12.zip、abc23.zip、abc34.zip同时解压到/home目录里面
   unzip abc\*.zip
-```
