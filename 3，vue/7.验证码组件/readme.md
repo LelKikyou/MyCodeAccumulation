@@ -1,4 +1,6 @@
-## 验证码组件 其他框架也能用
+﻿## 验证码组件 其他框架也能用
+- 如图  
+![](./default.png)
 ```
   <verification @verificationCode="getCode"></verification>
   其他参数
