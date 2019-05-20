@@ -1,5 +1,6 @@
 ﻿## 数字可视化组件
 ```
+npm i countup -S
 <count-to :decimals="2" :end="152"/>
 props: {
             init: {
