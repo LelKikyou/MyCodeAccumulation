@@ -4,7 +4,7 @@
             <Sider ref="side" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed"
                    class="siderScroll">
                 <div class="sign" :style="{height: layoutHeaderBarHeight+'px',lineHeight: layoutHeaderBarHeight+'px'}">
-                    <img class="logo" src="../../assets/imgs/logo.png">
+                    <img :class="['logo',{'collapsedLogo':isCollapsed}]" src="@/assets/imgs/logo.png">
                     <div class="font" v-show="!isCollapsed">
                         罪犯数据平台
                     </div>
@@ -166,7 +166,7 @@
     .siderScroll .menu-item span {
         display: inline-block;
         overflow: hidden;
-        width: 69px;
+        width: 84px;
         text-overflow: ellipsis;
         white-space: nowrap;
         vertical-align: bottom;

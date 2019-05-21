@@ -43,6 +43,7 @@
 .rotate-icon {
   transform: rotate(-90deg);
 }
+
 //
 .layout .siderScroll
   overflow hidden
@@ -54,6 +55,10 @@
       height 32px;
       vertical-align: middle;
       margin-left: 26px;
+      transition transform .2s ease;
+    .collapsedLogo
+      transform scale(1.1)
+      transition transform .2s ease .2s;
     .font
       display inline-block
       color #fff
