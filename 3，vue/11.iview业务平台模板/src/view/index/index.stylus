@@ -1,0 +1,73 @@
+/*fade-transform*/
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all .2s;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.layout {
+  background: #f5f7f9;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow auto
+}
+
+.layout-header-bar {
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+  overflow hidden
+}
+
+.layout-logo-left {
+  width: 90%;
+  height: 30px;
+  background: #5b6270;
+  border-radius: 3px;
+  margin: 15px auto;
+}
+
+.menu-icon {
+  transition: all .3s;
+}
+
+.rotate-icon {
+  transform: rotate(-90deg);
+}
+//
+.layout .siderScroll
+  overflow hidden
+  .sign
+    width 100%
+    border-bottom 1px solid rgba(0, 0, 0, 0.5)
+    .logo
+      width 30px;
+      height 32px;
+      vertical-align: middle;
+      margin-left: 26px;
+    .font
+      display inline-block
+      color #fff
+      vertical-align: middle;
+      margin-left: 16px;
+      font-size 18px;
+
+.layout-header-bar
+  .tags-nav
+    float left
+    width calc(100% - 164px)
+    height 100%;
+  .admin
+    float left
+    width 100px
+    height 100%;
+
