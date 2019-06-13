@@ -1,5 +1,12 @@
 ﻿# nginx
 ### linux下的基础操作
+- linux 下载
+~~~
+rpm离线安装包下载地址:
+http://nginx.org/packages/centos/7/x86_64/RPMS/ 
+找到自己需要的版本然后 安装
+rpm -ivh nginx-1.12.0-1.el7.ngx.x86_64.rpm
+~~~
 - 防火墙
 ~~~
 # 开启
