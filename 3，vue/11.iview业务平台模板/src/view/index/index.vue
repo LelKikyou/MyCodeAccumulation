@@ -15,6 +15,12 @@
                     <menuTree :menuData="menuData" @upHandleRoute="handleRoute"></menuTree>
                 </Menu>
             </Sider>
+            <!--*触摸弹出提示-->
+            <div class="menuCollapsedIcon" v-show="isCollapsed">
+                <Tooltip v-for="item in menuData" :content="item.title" placement="right">
+                    <div class="menuCollapsedIconDiv"></div>
+                </Tooltip>
+            </div>
             <Layout>
                 <Header class="layout-header-bar"
                         :style="{height: layoutHeaderBarHeight+'px',lineHeight: layoutHeaderBarHeight+'px',padding: 0}">
@@ -43,7 +49,7 @@
     </div>
 </template>
 <script>
-    import {Layout, Header, Content, Sider, Menu, Icon} from "iview"
+    import {Layout, Header, Content, Sider, Menu, Icon,Tooltip} from "iview"
     import tagNav from "@/components/tag-nav"
     import menuData from "@/config/menuConfig"
     import menuTree from "@/components/menu-tree"
@@ -59,7 +65,8 @@
             Menu,
             Icon,
             tagNav,
-            menuTree
+            menuTree,
+            Tooltip
         },
         data() {
             return {

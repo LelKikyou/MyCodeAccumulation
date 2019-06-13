@@ -6,11 +6,12 @@
                         type="dot"
                         v-for="(item, index) in list"
                         ref="tagsPageOpened"
+                        :item-data="item"
                         :key="`tag-nav-${index}`"
                         @on-close="handleClose(index,item)"
                         @click.native="handleClick(item)"
                         :closable="item.path!=='/index/home'"
-                        :color="pullRoute.path===item.path?'primary':'default'"
+                        :color="filterIsNowSelection(pullRoute.path,item.path)?'primary':'default'"
                 >{{ item.title }}
                 </Tag>
             </div>
@@ -44,7 +45,7 @@
             handleClose(index, item) {
                 this.$emit("upHandleClose", {
                     index: index,
-                    isNowSelection: item.path === this.pullRoute.path  //是否当前选中的
+                    isNowSelection: this.filterIsNowSelection(this.pullRoute.path, item.path)  //是否当前选中的
                 });
             },
             handleClick(item) {
@@ -74,6 +75,42 @@
                         this.tagBodyLeft = 0
                     }
                 }
+            },
+            filterIsNowSelection(path, pathName) {
+                let pathArr = path.split("/");  //由于$router.pathName可能不一样，所以取前2个路径进行对比。
+                return "/" + pathArr[1] + "/" + pathArr[2] === pathName
+            },
+            getTagElementByName(route) {
+                this.$nextTick(() => {
+                    this.refsTag = this.$refs.tagsPageOpened
+                    this.refsTag.forEach((item, index) => {
+                        if (this.filterIsNowSelection(route.path, item.$attrs['item-data'].path)) {
+                            let tag = this.refsTag[index].$el;
+                            this.moveToView(tag)
+                        }
+                    })
+                })
+            },
+            moveToView(tag) {
+                const outerWidth = this.$refs.scrollOuter.offsetWidth
+                const bodyWidth = this.$refs.scrollBody.offsetWidth
+                if (bodyWidth < outerWidth) {
+                    this.tagBodyLeft = 0
+                } else if (tag.offsetLeft < -this.tagBodyLeft) {
+                    // 标签在可视区域左侧
+                    this.tagBodyLeft = -tag.offsetLeft
+                } else if (tag.offsetLeft > -this.tagBodyLeft && tag.offsetLeft + tag.offsetWidth < -this.tagBodyLeft + outerWidth) {
+                    // 标签在可视区域
+                    this.tagBodyLeft = Math.min(0, outerWidth - tag.offsetWidth - tag.offsetLeft)
+                } else {
+                    // 标签在可视区域右侧
+                    this.tagBodyLeft = -(tag.offsetLeft - (outerWidth - tag.offsetWidth))
+                }
+            },
+        },
+        watch: {
+            '$route'(to) {
+                this.getTagElementByName(to)
             }
         }
     }

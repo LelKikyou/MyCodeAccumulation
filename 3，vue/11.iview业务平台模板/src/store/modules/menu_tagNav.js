@@ -25,7 +25,7 @@ export default {
             //列表没有就添加
             let lock = false;
             for (let item of state.menuList) {
-                if (item.path === data.path) {
+                if (item.name === data.name) {
                     lock = true;
                     break
                 }
