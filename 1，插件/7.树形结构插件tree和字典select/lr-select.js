@@ -1,13 +1,50 @@
-﻿(function ($, learun) {
+﻿/*
+ * 版 本 Learun-ADMS V6.1.6.0 力软敏捷开发框架(http://www.learun.cn)
+ * Copyright (c) 2013-2017 上海力 软信息技术有限公司
+ * 创建人：力 软-前端开发组
+ * 日 期：2017.03.22
+ * 描 述：learunSelect（普通，多选，树形数据，gird，搜索，输入框选择器）-渲染数据在点击的时候触发，考虑到在一个表单上有超级多的下拉框的绑定情况（这里需要考虑赋值的特殊性）
+ */
+(function ($, learun) {
     "use strict";
     $.lrselect = {
+        searchZd:function(url,dom) {
+            function ZiDian(text, value) {
+                this.ChildNodes = [];
+                this.checkstate = 0;
+                this.complete = true;
+                this.hasChildren = false;
+                this.icon = null;
+                this.id = learun.newGuid();
+                this.isexpand = true;
+                this.showcheck = false;
+                this.text = text;
+                this.title = null;
+                this.value = value;
+            }
+            //搜索字典
+            $.get(url, function (res) {
+                    var data = JSON.parse(res);
+                    if (data.code === 200) {
+                        var zd = data.data.map(function (value) {
+                            return new ZiDian(value.Keys, value.Value);
+                        });
+                        dom.lrselect({
+                            data: zd,
+                            text: "text",
+                            value: "value",
+                            allowSearch: true
+                        });
+                    }
+                });
+        },
         htmlToData: function ($self) {
             var dfop = $self[0]._lrselect.dfop;
             var $ul = $self.find('ul');
             dfop.data = [];
             $ul.find('li').each(function () {
                 var $li = $(this);
-                var point = {id: $li.attr('data-value'), text: $li.html()}
+                var point = { id: $li.attr('data-value'), text: $li.html() }
                 dfop.data.push(point);
             });
             $ul.remove();
@@ -24,12 +61,10 @@
             $optionContent.html($ul);
             $option.prepend($optionContent);
             if (dfop.allowSearch) {
-                var $search = $('<div class="lr-select-option-search"><input type="text" id="sdcmZD" placeholder="搜索关键字"><span class="input-query" title="查询"><i class="iconfont icon-sousuosearch82"></i></span></div>');
+                var $search = $('<div class="lr-select-option-search"><input type="text" id="sdcmZD" placeholder="搜索关键字"><span class="input-query" title="查询"><i class="fa fa-search"></i></span></div>');
                 $option.append($search);
                 $option.css('padding-bottom', '25px');
-                $search.on('click', function () {
-                    return false;
-                });
+                $search.on('click', function () { return false; });
                 $search.find('input').on("keypress", function (e) {
                     if (event.keyCode == "13") {
                         var $this = $(this);
@@ -38,7 +73,7 @@
                         var dfop = $select[0]._lrselect.dfop;
                         if (dfop.type == "tree" || dfop.type == "treemultiple") {
                             var $optionContent = $this.parent().prev();
-                            $optionContent.lrtreeSet('search', {keyword: keyword});
+                            $optionContent.lrtreeSet('search', { keyword: keyword });
                         }
                         else if (dfop.type == "default" || dfop.type == "multiple") {
                             for (var i = 0, l = dfop.data.length; i < l; i++) {
@@ -52,18 +87,18 @@
                             }
                             $.lrselect.render(dfop);
                         }
-
+                        
                     }
                 });
                 //添加搜索按钮点击事件
                 $search.find('.input-query').on("click", function (e) {
-                    var $this = $(this);
+                    var $this = $(this);                   
                     var keyword = $this.parent().find("input").val();
                     var $select = $this.parents('.lr-select');
                     var dfop = $select[0]._lrselect.dfop;
                     if (dfop.type == "tree" || dfop.type == "treemultiple") {
                         var $optionContent = $this.parent().prev();
-                        $optionContent.lrtreeSet('search', {keyword: keyword});
+                        $optionContent.lrtreeSet('search', { keyword: keyword });
                     }
                     else if (dfop.type == "default" || dfop.type == "multiple") {
                         for (var i = 0, l = dfop.data.length; i < l; i++) {
@@ -86,7 +121,7 @@
                     if (keyword == "") {
                         if (dfop.type == "tree" || dfop.type == "treemultiple") {
                             var $optionContent = $this.parent().prev();
-                            $optionContent.lrtreeSet('search', {keyword: keyword});
+                            $optionContent.lrtreeSet('search', { keyword: keyword });
                         }
                         else if (dfop.type == "default" || dfop.type == "multiple") {
                             for (var i = 0, l = dfop.data.length; i < l; i++) {
@@ -131,7 +166,7 @@
                     break;
             }
             dfop.isrender = true;
-
+            
         },
         defaultRender: function (dfop) {
             var $ul = $('#learun_select_option_content' + dfop.id);
@@ -145,7 +180,7 @@
                     var $li = $('<li data-value="' + i + '" class="lr-selectitem-li" >' + item[dfop.text] + '</li>');
                     $ul.append($li);
                 }
-
+              
             }
         },
         multipleRender: function (dfop) {
@@ -169,7 +204,6 @@
             }
         },
         treeRender: function (dfop) {
-
             var $option = $('#learun_select_option_' + dfop.id);
             $option.find('.lr-select-option-content').remove();
             var $optionContent = $('<div class="lr-select-option-content"></div>');
@@ -199,7 +233,7 @@
         },
         bindEvent: function ($self) {
             $self.unbind('click');
-            $self.on('click', $.lrselect.click);
+            $self.on('click', $.lrselect.click);         
             $(document).click(function (e) {
                 $('.lr-select-option').slideUp(150);
                 $('.lr-select').removeClass('lr-select-focus');
@@ -209,8 +243,7 @@
             //hcy 解决鼠标点右边滚动条，下拉框消失的问题
             if (e.target.className != 'lr-select-placeholder' && e.target.className != 'lr-selectitem-li') {
                 return false;
-            }
-            ;
+            };        
             var $this = $(this);
             if ($this.attr('readonly') == 'readonly' || $this.attr('disabled') == 'disabled') {
                 return false;
@@ -276,8 +309,7 @@
 
                 if ($et.hasClass('lr-selectitem-li') || $et.hasClass('lr-select-node-cb')) {
                     var $inputText = $this.find('.lr-select-placeholder');
-                    var $cbobj = $et.find('.lr-select-node-cb');
-                    ;
+                    var $cbobj = $et.find('.lr-select-node-cb');;
                     var _index = $et.attr('data-value');
                     if ($et.hasClass('lr-select-node-cb')) {
                         $cbobj = $et;
@@ -407,12 +439,12 @@
             $select.trigger("change");
             if (!!dfop.select) {
                 dfop.select(dfop.currtentItems);
-            }
+            }            
         },
         defaultValue: function ($self) {
-            var $this=$self;
+            var $this = $self;
             var $et = $self.find(".lr-selectitem-li").eq(0);
-            var dfop=$self[0]._lrselect.dfop;
+            var dfop = $self[0]._lrselect.dfop;
             var _index = $et.attr('data-value');
             var $option = $('#learun_select_option_' + dfop.id);
             if (dfop._index != _index) {
@@ -455,7 +487,7 @@
             // 展开最大高度
             maxHeight: 200,
             // 宽度
-            width: 200,
+            width: false,
             // 是否允许搜索
             allowSearch: false,
             // 访问数据接口地址
@@ -468,7 +500,7 @@
 
             //选择事件
             select: false,
-
+            
             isload: false, // 数据是否加载完成
             isrender: false// 选项是否渲染完成
         };
@@ -486,74 +518,18 @@
             return $self;
         }
 
-        $self[0]._lrselect = {dfop: dfop};
+        $self[0]._lrselect = { dfop: dfop };
         // 基础信息渲染
         $.lrselect.bindEvent($self);
-
+        
         // 数据获取方式有三种：url,data,html
         // url优先级最高
         if (!!dfop.url) {
-            // learun.httpAsync(dfop.method, dfop.url, dfop.param, function (data) {
-            //     $self[0]._lrselect.dfop.data = data || [];
-            //     $self[0]._lrselect.dfop.backdata = data || [];
-            //     dfop.isload = true;
-            // });
-            var data = [{
-                checkstate: 0,
-                complete: true,
-                hasChildren: true,
-                icon: null,
-                id: "a5548f15-1565-4812-ba29-403d09dfd386",
-                isexpand: true,
-                parentId: "0",
-                showcheck: false,
-                text: "本人或户主",
-                title: null,
-                value: "01",
-                ChildNodes: [{
-                    checkstate: 0,
-                    complete: true,
-                    hasChildren: false,
-                    icon: null,
-                    id: "011111",
-                    isexpand: true,
-                    parentId: "a5548f15-1565-4812-ba29-403d09dfd386",
-                    showcheck: false,
-                    text: "本人",
-                    title: null,
-                    value: "01",
-                    ChildNodes: []
-                }, {
-                    checkstate: 1,
-                    complete: true,
-                    hasChildren: false,
-                    icon: null,
-                    id: "022222",
-                    isexpand: true,
-                    parentId: "a5548f15-1565-4812-ba29-403d09dfd386",
-                    showcheck: false,
-                    text: "本人户主",
-                    title: null,
-                    value: "02",
-                    ChildNodes: []
-                }]
-            }, {
-                checkstate: 0,
-                complete: true,
-                hasChildren: false,
-                icon: null,
-                id: "2222222",
-                isexpand: true,
-                parentId: "0",
-                showcheck: false,
-                text: "大爷",
-                title: null,
-                value: "1",
-                ChildNodes: []
-            }];
-            $self[0]._lrselect.dfop.data = data || [];
-            $self[0]._lrselect.dfop.backdata = data || [];
-            dfop.isload = true;
+            learun.httpAsync(dfop.method, dfop.url, dfop.param, function (data) {
+                $self[0]._lrselect.dfop.data = data || [];
+                $self[0]._lrselect.dfop.backdata = data || [];
+                dfop.isload = true;
+            });
         }
         else if (!!dfop.data) {
             dfop.isload = true;
@@ -566,7 +542,7 @@
         }
         $.lrselect.initRender(dfop, $self);
         return $self;
-
+        
     };
 
     $.fn.lrselectRefresh = function (op) {
@@ -602,8 +578,8 @@
         }
     }
 
-
-    $.fn.lrselectGet = function () {
+    
+    $.fn.lrselectGet = function () { 
         var $this = $(this);
         if ($this.length == 0) {
             return $this;
@@ -659,7 +635,6 @@
         if (!dfop) {
             return $this;
         }
-
         function _fn(dfop) {
             if (dfop.isload == false) {
                 setTimeout(function () {
@@ -719,7 +694,7 @@
                     default:
                         break;
                 }
-
+               
 
                 if (!!_currtentItem) {
                     if (dfop.type == 'multiple') {
@@ -747,7 +722,6 @@
                 }
             }
         }
-
         _fn(dfop);
         return $this;
     };
