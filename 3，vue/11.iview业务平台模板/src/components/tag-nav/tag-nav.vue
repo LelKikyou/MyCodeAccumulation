@@ -26,6 +26,7 @@
         components: {
             Tag
         },
+        inheritAttrs: false,
         props: {
             pullRoute: Object,
             list: {
@@ -82,10 +83,11 @@
             },
             getTagElementByName(route) {
                 this.$nextTick(() => {
-                    this.refsTag = this.$refs.tagsPageOpened
-                    this.refsTag.forEach((item, index) => {
+                    let refsTag = this.$refs.tagsPageOpened
+                    console.log(refsTag[1])
+                    refsTag.forEach((item, index) => {
                         if (this.filterIsNowSelection(route.path, item.$attrs['item-data'].path)) {
-                            let tag = this.refsTag[index].$el;
+                            let tag = refsTag[index].$el;
                             this.moveToView(tag)
                         }
                     })

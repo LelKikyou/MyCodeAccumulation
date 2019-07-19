@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="layout">
         <Layout :style="{width:'100%',height:'100%'}">
             <Sider ref="side" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed"
@@ -181,7 +181,6 @@
     }
 
     .siderScroll .menu-item i {
-        transform: translateX(0px);
         transition: font-size .2s ease, transform .2s ease;
         vertical-align: middle;
         font-size: 16px;
