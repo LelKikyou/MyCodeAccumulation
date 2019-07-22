@@ -1,7 +1,8 @@
 # 类似于layer的模态框，基于vue
 
 ```
-  import modalFrame from "modalFrame";
+  npm i modalframe
+  import modalFrame from "modalframe";
   Vue.use(modalFrame);
 
   使用：
