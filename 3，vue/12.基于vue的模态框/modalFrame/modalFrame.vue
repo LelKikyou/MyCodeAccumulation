@@ -1,17 +1,17 @@
 <template>
-    <div class="modalFrame">
+    <div class="modalFrame" :class="className">
         <transition name="bounceModalFrame">
             <div class="modalFrameBox" v-show="show" :style="modalFrameStyle">
                 <div class="modalFrameTitle" ref="modalFrameTitleDom">
                     {{title}}
-                    <span class="icon" @click="remove"></span>
+                    <span class="icon" @click="close"><i class="iconfont icon-close"></i></span>
                 </div>
                 <div class="frameBox">
                     <templateModal :modalData="modalData"></templateModal>
                 </div>
-                <div class="frameBtn" v-if="btnShow">
-                    <button class="btn-cancel" @click="cancel">取消</button>
-                    <button class="btn-ok" @click="ok">确认</button>
+                <div class="frameBtn" v-if="btnShow.length">
+                    <button class="btn-cancel" @click="cancel" v-if="btnShow[1]">{{btnTit[1]||"取消"}}</button>
+                    <button class="btn-ok" @click="ok" v-if="btnShow[0]">{{btnTit[0]||"确认"}}</button>
                 </div>
             </div>
         </transition>
@@ -23,13 +23,16 @@
         name: "modalFrame",
         data() {
             return {
+                className: "",// 传入的class,可以依靠这个class控制内部样式
                 modalData: {},//传入模板里面的data
                 width: "800",//宽度
                 height: "600",//高度
                 onCancel: "",//取消回调  返回vm
                 onOk: "",//确认回调 返回 vm
+                onClose: "",//关闭回调 返回 vm
                 title: "",  //弹窗title
-                btnShow: true, //是否显示按钮
+                btnShow: [true, true], //是否显示按钮，[true,false],可以控制按钮的显示隐藏
+                btnTit: [],// 按钮的文字，["确认"]
                 show: false//控制动画显示隐藏
             }
         },
@@ -39,6 +42,7 @@
             })
         },
         methods: {
+            //取消按钮
             cancel() {
                 if (!!this.onCancel) {
                     this.onCancel(this)
@@ -46,9 +50,18 @@
                     this.remove();
                 }
             },
+            //确认按钮
             ok() {
                 if (!!this.onOk) {
                     this.onOk(this)
+                } else {
+                    this.remove();
+                }
+            },
+            //取消按钮
+            close() {
+                if (!!this.onClose) {
+                    this.onClose(this)
                 } else {
                     this.remove();
                 }
@@ -99,6 +112,7 @@
     }
 </script>
 
-<style scoped>
+<style>
+    @import "icon/iconfont.css";
     @import "modalFrame.css";
 </style>

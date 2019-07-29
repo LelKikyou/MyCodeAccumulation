@@ -63,11 +63,15 @@
     cursor: pointer;
     width: 20px;
     height: 20px;
-    background: url("icon.png") no-repeat;
+    line-height: 20px;
 }
 
 .modalFrame .modalFrameBox .modalFrameTitle .icon:hover {
     opacity: 0.7;
+}
+
+.modalFrame .modalFrameBox .modalFrameTitle .icon .icon-close {
+    font-size: 20px;
 }
 
 /*frameBox*/
