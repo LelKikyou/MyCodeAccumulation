@@ -1,9 +1,9 @@
-# 类似于layer的模态框，基于vue
+﻿# 类似于layer的模态框，基于vue
 
 ```
-  npm i modalFrame
-  import modalFrame from "modalFrame";
-  Vue.use(modalFrame);
+  npm i modalframe
+  import modalframe from "modalframe";
+  Vue.use(modalframe);
 
   使用：
             import template from "./template"   //模态框里面的内容 自定义
