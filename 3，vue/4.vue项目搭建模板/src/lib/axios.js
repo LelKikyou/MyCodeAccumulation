@@ -1,17 +1,9 @@
-﻿/**
- * http请求类
- * 基础axios
- * **/
-//没经过本人同意不许修改
+﻿/**http请求类**/
 import axios from 'axios'
-// import {URL, TOKEN} from '@/api/config'
-import {URL} from '@/api/config'
-
-// import Cookies from "js-cookie"
 
 class HttpAsynAxios {
-    constructor() {
-
+    constructor(url) {
+        this.URL = url || ""
     }
 
     //请求拦截器
@@ -26,7 +18,6 @@ class HttpAsynAxios {
                 return config;
             },
             err => {
-                console.log(err)
                 return Promise.reject(err);
             });
         // http response 拦截器
@@ -54,8 +45,7 @@ class HttpAsynAxios {
     //创建实例
     createInstance() {
         return axios.create({
-            baseURL: URL,
-            // timeout:2000 //请求超时时间设置 default is `0` (no timeout)
+            baseURL: this.URL,
         })
     }
 
@@ -78,5 +68,4 @@ class HttpAsynAxios {
 
 }
 
-const httpAsynAxios = new HttpAsynAxios();
-export default httpAsynAxios;
+export default HttpAsynAxios;

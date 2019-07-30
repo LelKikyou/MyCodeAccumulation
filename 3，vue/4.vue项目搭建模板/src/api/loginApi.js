@@ -1,9 +1,12 @@
-import httpAxios from "@/lib/axios"
+import Http from "@/lib/axios"
+import {URL} from "./config";
 
-//登录
-export const getLoginApi = () => {
+const httpAxios = new Http(URL);
+//北京大屏
+export const login = (data) => {
     return httpAxios.axioseRquest({
         method: "get",
-        url: ''
+        url: '',
+        params: data
     })
 };
