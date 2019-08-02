@@ -1,0 +1,37 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "apidoc -i ./routes/api -o ./public/apidoc/ && cross-env NODE_ENV=dev nodemon ./bin/www",
+    "devProduce": "nodemon ./bin/www",
+    "start": "pm2 start ./bin/www --name sdcmSfbBigData",
+    "stop": "pm2 stop ./bin/www --name sdcmSfbBigData",
+    "restart": "pm2 restart ./bin/www --name sdcmSfbBigData",
+    "reload": "pm2 reload ./bin/www --name sdcmSfbBigData",
+    "list": "pm2 list",
+    "apidoc": "apidoc -i ./routes/api -o ./public/apidoc/"
+  },
+  "dependencies": {
+    "apidoc": "^0.17.7",
+    "axios": "^0.19.0",
+    "connect-history-api-fallback": "^1.6.0",
+    "cookie-parser": "~1.4.4",
+    "cross-env": "^5.2.0",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "nodemon": "^1.19.1",
+    "pm2": "^3.5.1"
+  },
+  "apidoc": {
+    "name": "sdcm-server",
+    "version": "1.0.0",
+    "description": "sdcm-server项目API文档",
+    "title": "sdcm-server-api",
+    "url": "http://localhost:7777/api/sdcm",
+    "forceLanguage": "zh-cn"
+  }
+}
