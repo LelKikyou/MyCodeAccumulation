@@ -9,6 +9,6 @@ apidoc 配置文档
  * @apiSuccess  user 返回user
  * @apiSuccessExample {json} Success-Response:
  *  {"user":""}
- * @apiSampleRequest http://localhost:3001/api/sdcm/login
+ * @apiSampleRequest http://localhost:7777/api/sdcm/login
  * @apiVersion 1.0.0
  */

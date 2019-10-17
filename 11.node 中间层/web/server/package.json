@@ -1,20 +1,21 @@
 {
   "name": "server",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "apidoc -i ./routes/api -o ./public/apidoc/ && cross-env NODE_ENV=dev nodemon ./bin/www",
+    "dev": "apidoc -i ./routes/controller -o ./public/apidoc/ && cross-env NODE_ENV=dev nodemon ./bin/www",
     "devProduce": "nodemon ./bin/www",
-    "start": "pm2 start ./bin/www --name sdcmSfbBigData",
-    "stop": "pm2 stop ./bin/www --name sdcmSfbBigData",
-    "restart": "pm2 restart ./bin/www --name sdcmSfbBigData",
-    "reload": "pm2 reload ./bin/www --name sdcmSfbBigData",
+    "start": "pm2 start ./bin/www --name sdcmSDBigData -i 2",
+    "stop": "pm2 stop sdcmSDBigData",
+    "reload": "pm2 reload sdcmSDBigData",
+    "delete": "pm2 delete sdcmSDBigData",
     "list": "pm2 list",
     "apidoc": "apidoc -i ./routes/api -o ./public/apidoc/"
   },
   "dependencies": {
     "apidoc": "^0.17.7",
     "axios": "^0.19.0",
+    "compression": "^1.7.4",
     "connect-history-api-fallback": "^1.6.0",
     "cookie-parser": "~1.4.4",
     "cross-env": "^5.2.0",
@@ -31,7 +32,7 @@
     "version": "1.0.0",
     "description": "sdcm-server项目API文档",
     "title": "sdcm-server-api",
-    "url": "http://localhost:7777/api/sdcm",
+    "url": "http://localhost:8800/api/sdcm",
     "forceLanguage": "zh-cn"
   }
 }

@@ -4,11 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var history = require('connect-history-api-fallback');//解决history访问不到的问题
+var compression = require('compression');//gizp
+
 global.pathRoot = path.resolve(__dirname);//定义文件根路径
 const {development} = require('./config/config.js');
 var indexRouter = require('./routes/index');
 
 var app = express();
+
+app.use(compression());
+
 //开发环境设置跨域
 if (development === "dev") {
     app.all('*', (req, res, next) => {
@@ -18,7 +23,20 @@ if (development === "dev") {
         res.header('Access-Control-Allow-Credentials', 'true');
         next();
     });
+    app.use(history({ //开发环境遇到/api/sdcm 时候返回原来的路径，能在浏览器直接打开接口
+        rewrites: [
+            {
+                from: /\/api\/sdcm/,
+                to: function (context) {
+                    return context.parsedUrl.path
+                }
+            }
+        ]
+    }));
+} else {
+    app.use(history());
 }
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -27,17 +45,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
-
-app.use(history({ //遇到/api 时候返回原来的路径
-    rewrites: [
-        {
-            from: /\/api/,
-            to: function (context) {
-                return context.parsedUrl.path
-            }
-        }
-    ]
-}));
 
 //加载路由api,开发环境加载api文档
 indexRouter(app);
@@ -50,7 +57,6 @@ if (development !== "dev") {
 app.use(function (req, res, next) {
     next(createError(404));
 });
-
 // error handler
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development

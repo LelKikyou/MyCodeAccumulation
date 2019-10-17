@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "sdcm-server项目API文档",
   "title": "sdcm-server-api",
-  "url": "http://localhost:7777/api/sdcm",
+  "url": "http://localhost:8800/api/sdcm",
   "forceLanguage": "zh-cn",
   "sampleUrl": false,
   "defaultVersion": "0.0.0",
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2019-08-02T06:58:44.218Z",
+    "time": "2019-10-11T01:24:54.277Z",
     "url": "http://apidocjs.com",
     "version": "0.17.7"
   }
