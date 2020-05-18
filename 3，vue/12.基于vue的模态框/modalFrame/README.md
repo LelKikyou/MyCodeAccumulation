@@ -1,9 +1,9 @@
-﻿# 类似于layer的模态框，基于vue
+# 类似于layer的模态框，基于vue
 
 ```
-  npm i modalframe
-  import modalframe from "modalframe";
-  Vue.use(modalframe);
+  npm i modalFrame
+  import modalFrame from "modalFrame";
+  Vue.use(modalFrame);
 
   使用：
             import template from "./template"   //模态框里面的内容 自定义
@@ -15,13 +15,13 @@
                         },
                         width: "1000",
                         height: "500",
-                        onCancel: function (vm) {
+                        onCancel: function (vm,modal) {modal:模板实例
                             vm.remove()  //关闭弹窗的方法
                         },
-                        onOk: function (vm) {
+                        onOk: function (vm,modal) {
 
                         },
-                        onClose: function (vm) {
+                        onClose: function (vm，modal) {
 
                         }
                     })

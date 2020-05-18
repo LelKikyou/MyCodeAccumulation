@@ -34,8 +34,8 @@ function filterData(optionsData) {
         }
     }
     //btnShow必须为数组
-    if (!(Object.prototype.toString.call(optionsData.btnTit) === '[object Array]')) {
-        if (!(optionsData.btnTit === undefined)) {
+    if (!(Object.prototype.toString.call(optionsData.btnShow) === '[object Array]')) {
+        if (!(optionsData.btnShow === undefined)) {
             console.error("{btnShow:''}中btnShow只能为数组或不填");
             return true
         }

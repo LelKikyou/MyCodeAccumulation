@@ -7,7 +7,7 @@
                     <span class="icon" @click="close"><i class="iconfont icon-close"></i></span>
                 </div>
                 <div class="frameBox">
-                    <templateModal :modalData="modalData"></templateModal>
+                    <templateModal ref="templateModal" :modalData="modalData"></templateModal>
                 </div>
                 <div class="frameBtn" v-if="btnShow.length">
                     <button class="btn-cancel" @click="cancel" v-if="btnShow[1]">{{btnTit[1]||"取消"}}</button>
@@ -45,7 +45,7 @@
             //取消按钮
             cancel() {
                 if (!!this.onCancel) {
-                    this.onCancel(this)
+                    this.onCancel(this,this.$refs.templateModal)
                 } else {
                     this.remove();
                 }
@@ -53,7 +53,7 @@
             //确认按钮
             ok() {
                 if (!!this.onOk) {
-                    this.onOk(this)
+                    this.onOk(this,this.$refs.templateModal)
                 } else {
                     this.remove();
                 }
@@ -61,7 +61,7 @@
             //取消按钮
             close() {
                 if (!!this.onClose) {
-                    this.onClose(this)
+                    this.onClose(this,this.$refs.templateModal)
                 } else {
                     this.remove();
                 }
