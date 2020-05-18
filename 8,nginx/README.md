@@ -168,3 +168,30 @@ gzip_disable "MSIE [1-6]\.";
 
 第8行：IE6对Gzip不怎么友好，不给它Gzip了
 ~~~
+
+### HTTPS 设置
+##### 下载mkcert
+~~~
+github地址:https://github.com/FiloSottile/mkcert
+安装：linux:    ./mkcert-v1.4.1-linux-amd64
+                mkcert -install
+~~~
+##### nginx 配置
+~~~
+    server {
+        listen     443 ssl;
+        server_name  localhost;		
+        ssl on;
+        ssl_certificate      /root/.local/share/mkcert/rootCA.pem;
+        ssl_certificate_key  /root/.local/share/mkcert/rootCA-key.pem;
+        #ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+        location / {
+          root   /usr/share/nginx/html/dist;
+          try_files $uri $uri/ /index.html;
+
+        }
+    }
+~~~
