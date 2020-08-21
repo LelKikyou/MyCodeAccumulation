@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="pace/css/pace-theme-loading-bar.css">
+</head>
+
+<body>
+
+</body>
+<script>
+    Bar = (function () {
+        function Bar() {
+            this.progress = 0;
+            this.target = "body";
+        }
+
+        Bar.prototype.getElement = function () {
+            var targetElement;
+            if (this.el == null) {
+                targetElement = document.querySelector(this.target);
+                if (!targetElement) {
+                    return
+                }
+                this.el = document.createElement('div');
+                this.el.className = "pace pace-active";
+                document.body.className = document.body.className.replace(/pace-done/g, '');
+                this.el.innerHTML = '<div class="pace-progress">\n  <div class="pace-progress-inner"></div>\n</div>\n<div class="pace-activity"></div>';
+                if (targetElement.firstChild != null) {
+                    targetElement.insertBefore(this.el, targetElement.firstChild);
+                } else {
+                    targetElement.appendChild(this.el);
+                }
+            }
+            return this.el;
+        };
+
+        Bar.prototype.finish = function () {
+            var el;
+            el = this.getElement();
+            el.className = el.className.replace('pace-active', '');
+            el.className += ' pace-inactive';
+            return document.body.className += ' pace-done';
+        };
+
+        Bar.prototype.update = function (prog) {
+            this.render(prog);
+        };
+
+        Bar.prototype.destroy = function () {
+            this.progress = 0;
+            try {
+                this.getElement().parentNode.removeChild(this.getElement());
+            } catch (err) {
+                console.log(err)
+            }
+            return this.el = null;
+        };
+
+        Bar.prototype.render = function (prog) {
+            var el, key, transform, _j, _len1, _ref2;
+            if (document.querySelector(this.target) == null) {
+                return false;
+            }
+            if (this.progress <= prog) {
+                this.progress = prog >= 100 ? 100 : prog;
+                el = this.getElement();
+                transform = "translate3d(" + this.progress + "%, 0, 0)";
+                _ref2 = ['webkitTransform', 'msTransform', 'transform'];
+                for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+                    key = _ref2[_j];
+                    el.children[0].style[key] = transform;
+                }
+                el.children[0].setAttribute('data-progress-text', "" + (this.progress | 0) + "%");
+
+            }
+        };
+        return Bar;
+
+    })();
+    var bar = new Bar()
+    //bar.destroy()
+    // bar.finish()
+</script>
+</html>
