@@ -44,6 +44,7 @@ sync 数据保存到磁盘
 - shutdown  
 ![操作](./img/4.png)  
 一般用 shutdown -h now 马上关机  
+shutdown -r now 立刻重启
 shutdown -h 12:00：12点关机 或 shutdown -h +10：10小时后  
 * * *
 # 软件安装

@@ -195,3 +195,31 @@ github地址:https://github.com/FiloSottile/mkcert
         }
     }
 ~~~
+### linux 开启自启动nginx
+##### 写入配置
+   - 1，vim /etc/init.d/nginx
+   - 2，编写nginx自启动脚本，内容参考官网地址：https://www.nginx.com/resources/wiki/start/topics/examples/redhatnginxinit/
+```
+        1，在/etc/init.d目录下 新建nginx文件 把上面官网的内容复制到文件中
+        2，需要注意这两个配置修改成自己的路径
+            nginx=”/usr/local/nginx/sbin/nginx” //修改成nginx执行程序的路径。 
+            NGINX_CONF_FILE=”/usr/local/nginx/conf/nginx.conf” //修改成nginx.conf文件的路径
+        *****上面的也可以不修改根据情况而定
+```
+  - 3，修改执行权限  
+```
+        chmod a+x /etc/init.d/nginx
+```
+  - 4，设置成服务并开机自启动 
+```
+        chkconfig --add /etc/init.d/nginx
+        chkconfig nginx on
+```  
+  - 5，启动 
+```
+        /etc/init.d/nginx start
+        /etc/init.d/nginx stop
+        service nginx start
+        service nginx stop
+        service nginx restart
+```
