@@ -4,17 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-	"start": "pm2 start ./webhook.js --name zdhGuangxiyuyue -i 2",
+    "start": "pm2 start ./webhook.js --name zdhGuangxiyuyue -i 2",
     "stop": "pm2 stop zdhGuangxiyuyue",
     "reload": "pm2 reload zdhGuangxiyuyue",
     "delete": "pm2 delete zdhGuangxiyuyue",
     "list": "pm2 list",
+    "log": "pm2 log",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "gitee-webhook-handler": "^0.1.2",
-    "pm2": "^4.5.0"
+    "pm2": "^4.5.0",
+    "shelljs": "^0.8.4"
   }
 }
