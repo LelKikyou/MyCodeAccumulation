@@ -3,6 +3,22 @@ var shell = require("shelljs")
 var createHandler = require("gitee-webhook-handler")
 var handler = createHandler({ path: "/webhooks_push", secret: "123456" }) //# post 所需要用到的秘钥
 
+function format(fmt, dateData) {
+  //兼容ie  replace(/-/g, "/")
+  var date = dateData ? new Date(dateData.replace(/-/g, "/")) : new Date()
+  fmt = fmt || "yyyy-mm-dd"
+  var o = {
+    "m+": date.getMonth() + 1, //月份
+    "d+": date.getDate(), //日
+    "h+": date.getHours(), //小时
+    "i+": date.getMinutes(), //分
+    "s+": date.getSeconds() //秒
+  }
+  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length))
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length))
+  return fmt
+}
 function run_cmd() {
   shell.echo("cd start")
   shell.cd("./video_booking_system")
@@ -23,6 +39,7 @@ function run_cmd() {
   shell.echo("dist -r start")
   shell.cp("-R", "./dist/*", "../../nginx/html/guangxiyuyue")
   shell.echo("all end")
+  shell.echo(format("yyyy-mm-dd hh:ii:ss"))
 }
 handler.on("error", function (err) {
   console.error("Error:", err.message)
