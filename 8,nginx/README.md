@@ -175,6 +175,9 @@ gzip_disable "MSIE [1-6]\.";
 github地址:https://github.com/FiloSottile/mkcert
 安装：linux:    ./mkcert-v1.4.1-linux-amd64
                 mkcert -install
+      window： 双击安装
+      ------
+      怎么通过mkcert创建证书 自行百度          
 ~~~
 ##### nginx 配置
 ~~~
