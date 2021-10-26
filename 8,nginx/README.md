@@ -119,11 +119,11 @@ server{
 }
 ```
 
-- 重定向 带有"/videoApi"路径的地址( http://localhost:8080/videoApi/zwcapfiles/qdyz1838565/2021/20210929/V210929_100210.mp4) 全部转到http://47.104.194.236:8070,变为http://47.104.194.236:8070/zwcapfiles/qdyz1838565/2021/20210929/V210929_100210.mp4
+- 重定向 带有"/videoApi"路径的地址( http://localhost:8080/videoApi/zwcapfiles/qdyz1838565/2021/20210929/V210929_100210.mp4) 全部转到http://xxx:8070,变为http://xxx:8070/zwcapfiles/qdyz1838565/2021/20210929/V210929_100210.mp4
 
 ```
 	location /videoApi {
-        proxy_pass http://47.104.194.236:8070;
+        proxy_pass http://xxx:8070;
         proxy_redirect    off;
         proxy_set_header  Host  $host;
         proxy_set_header  X-Real-IP  $remote_addr;
