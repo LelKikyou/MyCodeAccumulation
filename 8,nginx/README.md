@@ -30,16 +30,23 @@ systemctl disable firewalld.service
 killall nginx 关闭进程
 ```
 
-- nginx 启动
-
+- nginx 启动相关
 ```
+###linux下
+ps -ef | grep nginx   获取nginx安装目录
+netstat -nap | grep 10100  查看nginx开了哪些端口
+
+（建议安装完nginx之后 自定义配置文件启动，不然卸载更新之后nginx.conf 和 default.conf 文件会重置,之前的配置会不起作用）
+
+nginx -t -c /etc/nginx/nginx.conf  测试当前配置是否正确
+/usr/sbin/nginx -c /usr/share/hqyWeb/nginx.conf     nginx指定配置文件启动   (/usr/sbin/nginx)是nginx安装目录
+/usr/sbin/nginx -s reload -c /usr/share/hqyWeb/nginx.conf    nginx指定配置文件重启
 service nginx start  启动nginx
 nginx -s quit     从容停止nginx nginx自己的命令 都是nginx -s 开头，stop停止，quit从容停止，在任务做完后停止
-service nginx stop  停止
-service nginx restart 重启
 nginx -s reload 在重新编写或者修改Nginx的配置文件后，都需要作一下重新载入
-lsof -i :8080 查看端口进程
-netstat -tlnp 查看所有端口
+
+rpm -qa | grep nginx 查看安装了nginx 没有
+rpm -e nginx 卸载nginx （卸载重新安装之后 nginx.conf 和 default.conf 文件会重置）
 
 ###window下
      start nginx 启动命令
