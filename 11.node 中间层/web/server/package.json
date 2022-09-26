@@ -25,7 +25,7 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "nodemon": "^1.19.1",
-    "pm2": "^3.5.1"
+    "pm2": "^5.2.0"
   },
   "apidoc": {
     "name": "sdcm-server",
